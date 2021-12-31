@@ -1,10 +1,31 @@
 import * as vscode from "vscode";
 
-export function activate(context: vscode.ExtensionContext) {
+import PreviewPanel from "./webview/PreviewPanel";
+import getWebviewOptions from "./webview/getWebview";
 
-  context.subscriptions.push(vscode.commands.registerCommand("react-component-preview.active", () => {
-    vscode.window.showInformationMessage("Hello World from React Component Preview!");
-  }));
-}
+export const activate = (context: vscode.ExtensionContext) => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("react-preview.start", () => {
+      PreviewPanel.createAndShow(context.extensionUri);
+    }),
+  );
 
-export function deactivate() {}
+  context.subscriptions.push(
+    vscode.commands.registerCommand("react-preview.doRefactor", () => {
+      if (PreviewPanel.currentPanel) {
+        PreviewPanel.currentPanel.doRefactor();
+      }
+    }),
+  );
+
+  if (vscode.window.registerWebviewPanelSerializer) {
+    vscode.window.registerWebviewPanelSerializer(PreviewPanel.viewType, {
+      async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel) {
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        PreviewPanel.revive(webviewPanel, context.extensionUri);
+      },
+    });
+  }
+};
+
+export const deactivate = () => {};

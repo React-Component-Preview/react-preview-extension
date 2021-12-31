@@ -10,14 +10,30 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:react-component-preview.helloWorld"
+    "onCommand:react-preview.start",
+    "onCommand:react-preview.doRefactor",
+    "onWebviewPanel:react-preview"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "react-component-preview.helloWorld",
-        "title": "Hello World"
+        "command": "react-preview.start",
+        "title": "Start preview",
+        "category": "React Component Preview"
+      },
+      {
+        "command": "react-preview.doRefactor",
+        "title": "Do some refactoring",
+        "category": "React Component Preview"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "react-preview.start",
+        "key": "ctrl+p",
+        "mac": "cmd+p",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == javascript"
       }
     ]
   },
