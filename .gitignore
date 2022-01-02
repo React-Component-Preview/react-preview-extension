@@ -2,5 +2,6 @@ out
 dist
 node_modules
 .vscode-test/
-.DS_Store
 *.vsix
+.DS_Store
+.history

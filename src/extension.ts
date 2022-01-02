@@ -10,14 +10,6 @@ export const activate = (context: vscode.ExtensionContext) => {
     }),
   );
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand("react-preview.doRefactor", () => {
-      if (PreviewPanel.currentPanel) {
-        PreviewPanel.currentPanel.doRefactor();
-      }
-    }),
-  );
-
   if (vscode.window.registerWebviewPanelSerializer) {
     vscode.window.registerWebviewPanelSerializer(PreviewPanel.viewType, {
       async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel) {

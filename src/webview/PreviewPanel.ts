@@ -64,10 +64,6 @@ class PreviewPanel {
     );
   }
 
-  public doRefactor() {
-    this._panel.webview.postMessage({ command: "refactor" });
-  }
-
   public dispose() {
     PreviewPanel.currentPanel = undefined;
 
@@ -90,9 +86,8 @@ class PreviewPanel {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
-    const scriptPathOnDisk = vscode.Uri.joinPath(this._extensionUri, "media", "main.js");
-
-    const scriptUri = scriptPathOnDisk.with({ scheme: "vscode-resource" });
+    const bundleScriptPath = vscode.Uri.joinPath(this._extensionUri, "out", "app", "bundle.js");
+    const bundleScriptUri = webview.asWebviewUri(bundleScriptPath);
 
     const styleResetPath = vscode.Uri.joinPath(this._extensionUri, "media", "reset.css");
     const stylesPathMainPath = vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css");
@@ -122,9 +117,11 @@ class PreviewPanel {
 				<title>React Component Preview</title>
 			</head>
 			<body>
-        <h1> React Component Preview</h1>
-
-				<script nonce="${nonce}" src="${scriptUri}"></script>
+        <div id="root"></div>
+        <script nonce=${nonce}>
+          const vscode = acquireVsCodeApi();
+        </script>
+        <script nonce=${nonce} src="${bundleScriptUri}"></script>
 			</body>
 			</html>`;
   }
