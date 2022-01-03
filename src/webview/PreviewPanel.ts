@@ -78,6 +78,10 @@ class PreviewPanel {
     }
   }
 
+  public sendMessage(command: string) {
+    this._panel.webview.postMessage({ command });
+  }
+
   private _update() {
     const webview = this._panel.webview;
 
@@ -89,13 +93,6 @@ class PreviewPanel {
     const bundleScriptPath = vscode.Uri.joinPath(this._extensionUri, "out", "app", "bundle.js");
     const bundleScriptUri = webview.asWebviewUri(bundleScriptPath);
 
-    const styleResetPath = vscode.Uri.joinPath(this._extensionUri, "media", "reset.css");
-    const stylesPathMainPath = vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css");
-
-    const stylesResetUri = webview.asWebviewUri(styleResetPath);
-    const stylesMainUri = webview.asWebviewUri(stylesPathMainPath);
-
-    const nonce = getNonce();
 
     return `
 		<!DOCTYPE html>
@@ -103,25 +100,16 @@ class PreviewPanel {
 			<head>
 				<meta charset="UTF-8">
 
-				<!--
-					Use a content security policy to only allow loading images from https or from our extension directory,
-					and only allow scripts that have a specific nonce.
-				-->
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
-
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-				<link href="${stylesResetUri}" rel="stylesheet">
-				<link href="${stylesMainUri}" rel="stylesheet">
 
 				<title>React Component Preview</title>
 			</head>
 			<body>
         <div id="root"></div>
-        <script nonce=${nonce}>
+        <script>
           const vscode = acquireVsCodeApi();
         </script>
-        <script nonce=${nonce} src="${bundleScriptUri}"></script>
+        <script src="${bundleScriptUri}"></script>
 			</body>
 			</html>`;
   }
