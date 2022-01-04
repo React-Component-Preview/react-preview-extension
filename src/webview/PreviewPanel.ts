@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 
 import getWebviewOptions from "./getWebview";
-import getNonce from "./getNonce";
 
 class PreviewPanel {
   public static currentPanel: PreviewPanel | undefined;
@@ -92,7 +91,6 @@ class PreviewPanel {
   private _getHtmlForWebview(webview: vscode.Webview) {
     const bundleScriptPath = vscode.Uri.joinPath(this._extensionUri, "out", "app", "bundle.js");
     const bundleScriptUri = webview.asWebviewUri(bundleScriptPath);
-
 
     return `
 		<!DOCTYPE html>
