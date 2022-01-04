@@ -15,7 +15,7 @@ function Preview({ port = 9132 }: Props) {
       switch (message.command) {
         case "previewReady":
           setPreviewReady(true);
-        case "previewNotReady":
+        case "previewEnd":
           setPreviewReady(false);
       }
     });
