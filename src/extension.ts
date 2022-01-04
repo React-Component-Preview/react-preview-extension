@@ -63,4 +63,11 @@ export const activate = (context: vscode.ExtensionContext) => {
   }
 };
 
-export const deactivate = () => {};
+export const deactivate = () => {
+  const stopServer = () =>
+    server.stopCallback(() => {
+      PreviewPanel.currentPanel?.sendMessage("previewEnd");
+    });
+
+  stopServer();
+};
