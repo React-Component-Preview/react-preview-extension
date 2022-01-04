@@ -9,6 +9,8 @@ import getWebviewOptions from "./webview/getWebview";
 
 const createWebpackConfig = require("./utils/createWebpackConfig");
 
+let server: WebpackDevServer;
+
 export const activate = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
     vscode.commands.registerCommand("react-preview.start", () => {
@@ -32,12 +34,18 @@ export const activate = (context: vscode.ExtensionContext) => {
       const extensionPath = context.extensionPath;
       const workspacePath = workspaceFolders[0].uri.path;
 
+      vscode.workspace.onDidChangeTextDocument(() => {
+        const changedText = editor.document.getText();
+        fs.writeFileSync(path.join(extensionPath, "preview", "Component.js"), changedText);
+      });
+
       fs.writeFileSync(path.join(extensionPath, "preview", "Component.js"), currentEditorText);
 
       const webpackConfig = createWebpackConfig(9132, extensionPath, workspacePath);
       const compiler = Webpack(webpackConfig);
-      const devServerOptions = { ...webpackConfig.devServer, open: true };
-      const server = new WebpackDevServer(devServerOptions, compiler);
+      const devServerOptions = { ...webpackConfig.devServer, open: false };
+
+      server = new WebpackDevServer(devServerOptions, compiler);
 
       server.startCallback(() => {
         PreviewPanel.currentPanel?.sendMessage("previewReady");
