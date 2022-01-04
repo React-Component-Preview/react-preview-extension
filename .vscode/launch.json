@@ -28,8 +28,7 @@
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}",
-			"sourceMaps": true
+			"preLaunchTask": "${defaultBuildTask}"
 		}
 	]
 }
