@@ -1,7 +1,12 @@
-const path = require("path");
+import * as path from "path";
+import * as Webpack from "webpack";
 
-const createWebpackConfig = (devServerPort = 9132, extensionPath: string, workspacePath: string) => {
-  const config = {
+const createWebpackConfig = (
+  devServerPort = 9132,
+  extensionPath: string,
+  workspacePath: string,
+): Webpack.Configuration => {
+  return {
     mode: "development",
     entry: path.join(extensionPath, "preview", "index.js"),
     output: {
@@ -26,6 +31,7 @@ const createWebpackConfig = (devServerPort = 9132, extensionPath: string, worksp
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-env", "@babel/preset-react"],
+              plugins: ["babel-plugin-styled-components"],
             },
           },
         },
@@ -35,6 +41,7 @@ const createWebpackConfig = (devServerPort = 9132, extensionPath: string, worksp
         },
       ],
     },
+    stats: "errors-only",
     devServer: {
       static: {
         directory: path.join(extensionPath, "preview"),
@@ -43,13 +50,11 @@ const createWebpackConfig = (devServerPort = 9132, extensionPath: string, worksp
       port: devServerPort,
       host: "localhost",
       client: {
-        overlay: true,
-        logging: "info",
+        overlay: false,
+        logging: "none",
       },
     },
   };
-
-  return config;
 };
 
-module.exports = createWebpackConfig;
+export default createWebpackConfig;
