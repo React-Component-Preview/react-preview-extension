@@ -1,9 +1,9 @@
 import * as vscode from "vscode";
 
-import getWebviewOptions from "./getWebview";
+import getWebviewOptions from "./getWebviewOptions";
 
-class PreviewPanel {
-  public static currentPanel: PreviewPanel | undefined;
+class WebviewPanel {
+  public static currentPanel: WebviewPanel | undefined;
   public static readonly viewType = "reactPreview";
 
   private readonly _panel: vscode.WebviewPanel;
@@ -11,25 +11,23 @@ class PreviewPanel {
   private _disposable: vscode.Disposable[] = [];
 
   public static createAndShow(extensionUri: vscode.Uri) {
-    const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
-
-    if (PreviewPanel.currentPanel) {
-      PreviewPanel.currentPanel._panel.reveal(column);
+    if (WebviewPanel.currentPanel) {
+      WebviewPanel.currentPanel._panel.reveal(vscode.ViewColumn.Beside);
       return;
     }
 
     const panel = vscode.window.createWebviewPanel(
-      PreviewPanel.viewType,
+      WebviewPanel.viewType,
       "react-preview",
       vscode.ViewColumn.Beside,
       getWebviewOptions(extensionUri),
     );
 
-    PreviewPanel.currentPanel = new PreviewPanel(panel, extensionUri);
+    WebviewPanel.currentPanel = new WebviewPanel(panel, extensionUri);
   }
 
   public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    PreviewPanel.currentPanel = new PreviewPanel(panel, extensionUri);
+    WebviewPanel.currentPanel = new WebviewPanel(panel, extensionUri);
   }
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
@@ -49,22 +47,10 @@ class PreviewPanel {
       null,
       this._disposable,
     );
-
-    this._panel.webview.onDidReceiveMessage(
-      (message) => {
-        switch (message.command) {
-          case "alert":
-            vscode.window.showErrorMessage(message.text);
-            return;
-        }
-      },
-      null,
-      this._disposable,
-    );
   }
 
   public dispose() {
-    PreviewPanel.currentPanel = undefined;
+    WebviewPanel.currentPanel = undefined;
 
     this._panel.dispose();
 
@@ -75,10 +61,6 @@ class PreviewPanel {
         x.dispose();
       }
     }
-  }
-
-  public sendMessage(command: string) {
-    this._panel.webview.postMessage({ command });
   }
 
   private _update() {
@@ -92,6 +74,9 @@ class PreviewPanel {
     const bundleScriptPath = vscode.Uri.joinPath(this._extensionUri, "out", "app", "bundle.js");
     const bundleScriptUri = webview.asWebviewUri(bundleScriptPath);
 
+    const styleResetPath = vscode.Uri.joinPath(this._extensionUri, "app", "reset.css");
+    const stylesResetUri = webview.asWebviewUri(styleResetPath);
+
     return `
 		<!DOCTYPE html>
 			<html lang="en">
@@ -99,6 +84,8 @@ class PreviewPanel {
 				<meta charset="UTF-8">
 
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="${stylesResetUri}" rel="stylesheet">
 
 				<title>React Component Preview</title>
 			</head>
@@ -113,4 +100,4 @@ class PreviewPanel {
   }
 }
 
-export default PreviewPanel;
+export default WebviewPanel;
