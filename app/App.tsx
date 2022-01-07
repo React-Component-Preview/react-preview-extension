@@ -1,16 +1,26 @@
-import React, { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
-import ControlMenu from "./components/ControlMenu";
-import Preview from "./components/Preview";
+import Preview from "./panels/PreviewPanel";
+import ControlPanel from "./panels/ControlPanel";
 
-function App(): ReactElement {
+const App = () => {
+  const [componentName, setComponentName] = useState("");
+
+  useEffect(() => {
+    window.addEventListener("message", () => {});
+  }, []);
+
   return (
-    <div>
-      <h1>Hello this is React Webview Preview</h1>
-      <ControlMenu />
+    <Wrapper>
       <Preview />
-    </div>
+      <ControlPanel componentName={componentName} />
+    </Wrapper>
   );
-}
+};
+
+const Wrapper = styled.div`
+  height: 100vh;
+`;
 
 export default App;
