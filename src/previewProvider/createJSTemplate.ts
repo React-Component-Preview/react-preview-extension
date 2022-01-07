@@ -1,10 +1,17 @@
-import { PreviewConfig } from "../types";
+import { Prop } from "../types";
 
 const createJSTemplate = (
   componentUri: string,
-  componentName: string,
-  props?: PreviewConfig | undefined,
+  componentName: string | undefined,
+  propList: Prop[] | undefined,
 ): string => {
+  let props = "";
+
+  propList &&
+    propList.forEach((prop) => {
+      props = `${props} ${prop.key}={${prop.default}}`;
+    });
+
   return `
 import React from "react";
 import ReactDOM from "react-dom";
