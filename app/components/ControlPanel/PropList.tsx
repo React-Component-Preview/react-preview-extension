@@ -3,7 +3,7 @@ import React from "react";
 import PropEntity from "./PropEntity";
 
 interface Props {
-  propList: [];
+  propList: string[];
 }
 
 function PropsList({ propList }: Props) {
