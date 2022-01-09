@@ -17,6 +17,7 @@ function PropsList({ propList }: Props) {
           <th>Value</th>
         </tr>
       </Header>
+
       {propList.map((prop) => (
         <PropEntity
           propName={prop.propName}
@@ -29,12 +30,16 @@ function PropsList({ propList }: Props) {
 }
 
 const Table = styled.table`
-  text-indent: initial;
+  margin-top: 10px;
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #808080;
+  border-radius: 3px;
+  text-align: left;
 `;
 
 const Header = styled.thead`
-  display: table-header-group;
-  vertical-align: middle;
+  border-bottom: 1px solid #808080;
 `;
 
 export default PropsList;

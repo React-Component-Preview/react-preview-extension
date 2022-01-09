@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 
 import getWebviewOptions from "./getWebviewOptions";
 import PreviewProvider from "../previewProvider/PreviewProvider";
-import { createAndShowPreviewConfig, addPropsInfo } from "./../utils/propsRecord";
+import { createAndShowPreviewConfig, addPropsInfo, deletePropsInfo } from "./../utils/propsRecord";
 
 class WebviewPanel {
   public static currentPanel: WebviewPanel | undefined;
@@ -60,6 +60,7 @@ class WebviewPanel {
         case "add":
           await addPropsInfo(this._workspacePath, this.currentComponentName, message.payload);
         case "delete":
+          await deletePropsInfo(this._workspacePath, this.currentComponentName, message.propName);
       }
 
       this._update();

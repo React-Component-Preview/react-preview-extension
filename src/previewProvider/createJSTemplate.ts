@@ -9,7 +9,11 @@ const createJSTemplate = (
 
   propList &&
     propList.forEach((prop) => {
-      props = `${props} ${prop.propName}={${prop.defaultValue}}`;
+      if (prop.propType === "string") {
+        props = `${props} ${prop.propName}={"${prop.defaultValue}"}`;
+      } else {
+        props = `${props} ${prop.propName}={${prop.defaultValue}}`;
+      }
     });
 
   return `

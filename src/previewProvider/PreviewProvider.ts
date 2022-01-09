@@ -30,7 +30,7 @@ class PreviewProvider {
       this.update();
     });
 
-    vscode.workspace.onDidChangeTextDocument(() => {
+    vscode.workspace.onDidSaveTextDocument(() => {
       this.update();
     });
 
