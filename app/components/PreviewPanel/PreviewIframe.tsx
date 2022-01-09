@@ -22,8 +22,8 @@ const PreviewIframe = ({ port, backgroundColor, children }: Props) => {
 
 const Wrapper = styled.div`
   position: relative;
-  height: 90%;
-  width: 95%;
+  height: 97%;
+  width: 100%;
 `;
 
 const CustomIframe = styled.iframe<PreviewIframeType>`
@@ -31,7 +31,7 @@ const CustomIframe = styled.iframe<PreviewIframeType>`
   width: 100%;
   border: 1px solid #808080;
   border-radius: 3px;
-  background-color: ${(prop) => prop.backgroundColor};
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 export default PreviewIframe;

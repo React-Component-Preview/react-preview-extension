@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 interface Props {
   type: "button" | "submit" | "reset" | undefined;
@@ -8,10 +9,15 @@ interface Props {
 
 const Button = ({ type, value, onClick }: Props) => {
   return (
-    <button type={type} onClick={onClick}>
+    <DefaultButton type={type} onClick={onClick}>
       {value}
-    </button>
+    </DefaultButton>
   );
 };
+
+const DefaultButton = styled.button`
+  box-sizing: border-box;
+  width: 100%;
+`;
 
 export default Button;

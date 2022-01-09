@@ -24,7 +24,10 @@ function PropsControlHeader() {
     const propType = target.propType.value;
     const defaultValue = target.defaultValue.value;
 
-    // send message to extension to add props for selected component
+    vscode.postMessage({
+      command: "add",
+      payload: { propName, propType, defaultValue },
+    });
   };
 
   const onPropNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,23 +44,31 @@ function PropsControlHeader() {
 
   return (
     <FormWrapper onSubmit={onSubmit}>
-      <TextInput label="Prop Name" name="propName" value={propName} onChange={onPropNameChange} />
+      <div>
+        <TextInput label="Prop Name" name="propName" value={propName} onChange={onPropNameChange} />
+      </div>
 
-      <Select
-        label="Prop Type"
-        name="propType"
-        value={propType}
-        onChange={onPropTypeChange}
-        optionList={["string", "number", "boolean", "array", "object", "function"]}
-      />
+      <div>
+        <Select
+          label="Prop Type"
+          name="propType"
+          value={propType}
+          onChange={onPropTypeChange}
+          optionList={["string", "number", "boolean", "array", "object", "function"]}
+        />
+      </div>
 
-      <PropTypeDefaultValue
-        propType={propType}
-        defaultValue={defaultValue}
-        onChange={onDefaultValueChange}
-      />
+      <div>
+        <PropTypeDefaultValue
+          propType={propType}
+          defaultValue={defaultValue}
+          onChange={onDefaultValueChange}
+        />
+      </div>
 
-      <Button type="submit" value="Add" />
+      <div>
+        <Button type="submit" value="Add" />
+      </div>
     </FormWrapper>
   );
 }
@@ -65,8 +76,16 @@ function PropsControlHeader() {
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: row;
-  border: 1px solid blue;
-  height: 30px;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #808080;
+  border-radius: 3px;
+
+  div {
+    height: 40px;
+    width: 25%;
+    margin: 0px 5px;
+  }
 `;
 
 export default PropsControlHeader;
