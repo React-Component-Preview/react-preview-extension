@@ -8,12 +8,21 @@ interface Props {
 }
 
 const PropEntity = ({ propName, propType, defaultValue }: Props) => {
+  const onDeleteButtonClick = () => {
+    vscode.postMessage({
+      command: "delete",
+      propName,
+    });
+  };
+
   return (
     <Wrapper>
       <Prop>
         <th>{propName}</th>
         <th>{defaultValue}</th>
-        <th>X</th>
+        <th>
+          <button onClick={onDeleteButtonClick}>X</button>
+        </th>
       </Prop>
     </Wrapper>
   );
