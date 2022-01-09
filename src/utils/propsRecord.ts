@@ -56,7 +56,38 @@ export const addPropsInfo = async (
   const previewConfig = await fs.readFile(previewConfigPath);
   const originalPropsInfo = JSON.parse(previewConfig.toString());
 
-  originalPropsInfo[componentName].push(propInfo);
+  if (!originalPropsInfo[componentName]) {
+    originalPropsInfo[componentName] = [propInfo];
+  } else {
+    originalPropsInfo[componentName].push(propInfo);
+  }
+
+  await fs.writeFile(
+    path.join(workspacePath, "previewConfig.json"),
+    JSON.stringify(originalPropsInfo),
+  );
+};
+
+export const deletePropsInfo = async (
+  workspacePath: string,
+  componentName: string,
+  propName: string,
+) => {
+  const previewConfigFiles = await vscode.workspace.findFiles("previewConfig.json");
+  const previewConfigPath = previewConfigFiles[0] ? previewConfigFiles[0].path : undefined;
+
+  if (!previewConfigPath) {
+    return;
+  }
+
+  const previewConfig = await fs.readFile(previewConfigPath);
+  const originalPropsInfo = JSON.parse(previewConfig.toString());
+
+  const newPropsList = originalPropsInfo[componentName].filter(
+    (prop: Prop) => prop.propName !== propName,
+  );
+
+  originalPropsInfo[componentName] = newPropsList;
 
   await fs.writeFile(
     path.join(workspacePath, "previewConfig.json"),
