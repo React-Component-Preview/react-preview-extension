@@ -1,10 +1,9 @@
 export interface Prop {
-  key: string;
-  type: string;
-  default: string;
+  propName: string;
+  propType: string;
+  defaultValue: string;
 }
 
 export interface PreviewConfig {
-  name: string;
-  props: Prop[];
+  [key: string]: Prop[];
 }

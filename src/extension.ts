@@ -1,15 +1,24 @@
 import * as vscode from "vscode";
 
-import WebviewPanel from "./webview/WebviewPanel";
-import getWebviewOptions from "./webview/getWebviewOptions";
-
+import WebviewPanel from "./webviewPanel/WebviewPanel";
 import PreviewProvider from "./previewProvider/PreviewProvider";
+import getWebviewOptions from "./webviewPanel/getWebviewOptions";
+
+import { addGitIgnore } from "./utils/propsRecord";
 
 export const activate = (context: vscode.ExtensionContext) => {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+
+  if (!workspaceFolders) return;
+
+  const workspacePath = workspaceFolders[0].uri.path;
+
+  addGitIgnore(workspacePath);
+
   context.subscriptions.push(
     vscode.commands.registerCommand("react-preview.start", () => {
-      WebviewPanel.createAndShow(context.extensionUri);
-      PreviewProvider.startPreview(context.extensionUri.path);
+      PreviewProvider.startPreview(context.extensionUri.path, workspacePath);
+      WebviewPanel.createAndShow(context.extensionUri, workspacePath);
     }),
   );
 
@@ -17,7 +26,7 @@ export const activate = (context: vscode.ExtensionContext) => {
     vscode.window.registerWebviewPanelSerializer(WebviewPanel.viewType, {
       async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel) {
         webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-        WebviewPanel.revive(webviewPanel, context.extensionUri);
+        WebviewPanel.revive(webviewPanel, context.extensionUri, workspacePath);
       },
     });
   }
