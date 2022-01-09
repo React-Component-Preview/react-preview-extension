@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 interface Props {
   label: string;
@@ -12,9 +13,9 @@ interface Props {
 
 function Select({ label, name, value, onChange, required, className, optionList }: Props) {
   return (
-    <div>
+    <>
       <label htmlFor={name}>{label}</label>
-      <select
+      <DefaultSelect
         value={value}
         name={name}
         onChange={onChange}
@@ -26,9 +27,14 @@ function Select({ label, name, value, onChange, required, className, optionList 
             {option}
           </option>
         ))}
-      </select>
-    </div>
+      </DefaultSelect>
+    </>
   );
 }
+
+const DefaultSelect = styled.select`
+  box-sizing: border-box;
+  width: 100%;
+`;
 
 export default Select;

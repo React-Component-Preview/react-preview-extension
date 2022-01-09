@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import PropRegisterForm from "../components/ControlPanel/PropRegisterForm";
 import PropList from "../components/ControlPanel/PropList";
+import { Prop } from "../../src/types";
 
 interface Props {
-  componentName: string;
+  propList: Prop[];
 }
 
-const ControlPanel = ({ componentName }: Props) => {
-  const [propList, setPropList] = useState([]);
-
+const ControlPanel = ({ propList }: Props) => {
   return (
     <Wrapper>
       <PropRegisterForm />
@@ -20,10 +19,7 @@ const ControlPanel = ({ componentName }: Props) => {
 };
 
 const Wrapper = styled.div`
-  height: 50%;
-  color: red;
-  border: 1px solid red;
-  margin: 0px 20px;
+  height: 40%;
 `;
 
 export default ControlPanel;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import BackgroundColorControl from "../components/PreviewPanel/BackgroundColorControl";
+import PreviewControlMenu from "../components/PreviewPanel/PreviewControlMenu";
 import PreviewIframe from "../components/PreviewPanel/PreviewIframe";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PreviewPanel = ({ port = 9132 }: Props) => {
-  const [backgroundColor, setBackgroundColor] = useState("#0000");
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
 
   const onBackgroundColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBackgroundColor(event.currentTarget.value);
@@ -18,7 +18,7 @@ const PreviewPanel = ({ port = 9132 }: Props) => {
   return (
     <Wrapper>
       <PreviewIframe port={port} backgroundColor={backgroundColor}>
-        <BackgroundColorControl
+        <PreviewControlMenu
           backgroundColor={backgroundColor}
           onBackgroundColorChange={onBackgroundColorChange}
         />

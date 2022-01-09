@@ -14,7 +14,12 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
   switch (propType) {
     case "number":
       return (
-        <TextInput label="Number" name="defaultValue" value={defaultValue} onChange={onChange} />
+        <TextInput
+          label="Default Value"
+          name="defaultValue"
+          value={defaultValue}
+          onChange={onChange}
+        />
       );
     case "boolean":
       return (
@@ -27,16 +32,26 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
       );
     case "array":
       return (
-        <TextInput label="Array" name="defaultValue" value={defaultValue} onChange={onChange} />
+        <TextInput
+          label="Default Value"
+          name="defaultValue"
+          value={defaultValue}
+          onChange={onChange}
+        />
       );
     case "object":
       return (
-        <TextInput label="Object" name="defaultValue" value={defaultValue} onChange={onChange} />
+        <TextInput
+          label="Default Value"
+          name="defaultValue"
+          value={defaultValue}
+          onChange={onChange}
+        />
       );
     case "function":
       return (
         <Select
-          label="Function"
+          label="Default Value"
           name="defaultValue"
           value={defaultValue}
           onChange={onChange}
@@ -45,7 +60,12 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
       );
     default:
       return (
-        <TextInput label="String" name="defaultValue" value={defaultValue} onChange={onChange} />
+        <TextInput
+          label="Default Value"
+          name="defaultValue"
+          value={defaultValue}
+          onChange={onChange}
+        />
       );
   }
 };

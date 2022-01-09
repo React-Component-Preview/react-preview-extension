@@ -11,7 +11,7 @@ interface Props {
 
 const RadioInput = ({ label, name, onChange, radioList, required, className }: Props) => {
   return (
-    <div>
+    <>
       <p>{label}</p>
       {radioList.map((radio) => (
         <div>
@@ -28,7 +28,7 @@ const RadioInput = ({ label, name, onChange, radioList, required, className }: P
           />
         </div>
       ))}
-    </div>
+    </>
   );
 };
 

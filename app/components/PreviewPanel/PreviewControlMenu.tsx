@@ -8,7 +8,7 @@ interface Props {
   onBackgroundColorChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const BackgroundColorControl = ({ backgroundColor, onBackgroundColorChange }: Props) => {
+const PreviewControlMenu = ({ backgroundColor, onBackgroundColorChange }: Props) => {
   return (
     <Wrapper>
       <ColorInput
@@ -26,4 +26,4 @@ const Wrapper = styled.div`
   left: 5px;
 `;
 
-export default BackgroundColorControl;
+export default PreviewControlMenu;

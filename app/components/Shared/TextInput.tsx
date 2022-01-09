@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 interface Props {
   label: string;
@@ -22,9 +23,9 @@ const TextInput = ({
   onChange,
 }: Props) => {
   return (
-    <div>
+    <>
       <label htmlFor={name}>{label}</label>
-      <input
+      <Input
         type="text"
         id={name}
         className={className}
@@ -34,8 +35,14 @@ const TextInput = ({
         placeholder={placeHolder}
         onChange={onChange}
       />
-    </div>
+    </>
   );
 };
+
+const Input = styled.input`
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 3px;
+`;
 
 export default TextInput;

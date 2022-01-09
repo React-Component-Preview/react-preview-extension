@@ -5,16 +5,24 @@ import Preview from "./panels/PreviewPanel";
 import ControlPanel from "./panels/ControlPanel";
 
 const App = () => {
-  const [componentName, setComponentName] = useState("");
+  const [propList, setPropList] = useState([]);
 
   useEffect(() => {
-    window.addEventListener("message", () => {});
-  }, []);
+    window.addEventListener("message", (message: MessageEvent<any>) => {
+      const data = message.data;
+
+      if (data.propList) {
+        setPropList(data.propList);
+      } else {
+        setPropList([]);
+      }
+    });
+  });
 
   return (
     <Wrapper>
       <Preview />
-      <ControlPanel componentName={componentName} />
+      <ControlPanel propList={propList} />
     </Wrapper>
   );
 };

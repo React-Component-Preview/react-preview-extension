@@ -6,66 +6,57 @@ import * as WebpackDevServer from "webpack-dev-server";
 
 import createWebpackConfig from "./createWebpackConfig";
 import createJSTemplate from "./createJSTemplate";
+import WebviewPanel from "../webviewPanel/WebviewPanel";
+import { createAndShowPreviewConfig } from "../utils/propsRecord";
 
 class PreviewProvider {
   public static preview: PreviewProvider | undefined;
 
   private _extensionPath: string;
+  private _workspacePath: string;
   private _server: WebpackDevServer | undefined;
 
-  public static startPreview(extensionPath: string) {
-    PreviewProvider.preview = new PreviewProvider(extensionPath);
+  public static startPreview(extensionPath: string, workspacePath: string) {
+    PreviewProvider.preview = new PreviewProvider(extensionPath, workspacePath);
   }
 
-  private constructor(extensionPath: string) {
+  private constructor(extensionPath: string, workspacePath: string) {
     this._extensionPath = extensionPath;
+    this._workspacePath = workspacePath;
 
-    const editor = vscode.window.activeTextEditor;
-    const workspaceFolders = vscode.workspace.workspaceFolders;
+    this.update();
 
-    if (!workspaceFolders) {
-      vscode.window.showInformationMessage("No Active Workspace");
-      return;
-    }
-
-    if (!editor) {
-      vscode.window.showInformationMessage("No Active Editor");
-      return;
-    }
-
-    const workspacePath = workspaceFolders[0].uri.path;
-    const currentEditorPath = editor.document.uri.path;
-
-    this.update(currentEditorPath);
-
-    vscode.workspace.onDidSaveTextDocument(() => {
-      this.update(currentEditorPath);
+    vscode.window.onDidChangeActiveTextEditor(() => {
+      this.update();
     });
 
-    vscode.workspace.onDidOpenTextDocument(() => {
-      const editor = vscode.window.activeTextEditor;
-
-      if (!editor) {
-        return;
-      }
-
-      const changedEditorPath = editor.document.uri.path;
-
-      this.update(changedEditorPath);
+    vscode.workspace.onDidChangeTextDocument(() => {
+      this.update();
     });
 
-    this.startWebpackDevServer(workspacePath);
+    this.startWebpackDevServer();
   }
 
-  private update(currentEditorPath: string) {
+  public async update() {
+    const currentPanel = WebviewPanel.currentPanel;
+
+    if (!currentPanel) return;
+
+    const allProps = await createAndShowPreviewConfig(this._workspacePath);
+    const currentProps = allProps[currentPanel.currentComponentName];
+
     fs.writeFileSync(
       path.join(this._extensionPath, "preview", "index.js"),
-      createJSTemplate(currentEditorPath, "Component"),
+      createJSTemplate(
+        currentPanel.currentComponentPath,
+        currentPanel.currentComponentName,
+        currentProps,
+      ),
     );
   }
 
-  private startWebpackDevServer(workspacePath: string) {
-    const webpackConfig = createWebpackConfig(9132, this._extensionPath, workspacePath);
+  private startWebpackDevServer() {
+    const webpackConfig = createWebpackConfig(9132, this._extensionPath, this._workspacePath);
     const compiler = Webpack(webpackConfig);
     const devServerOptions = { ...webpackConfig.devServer, open: false };
 
