@@ -8,7 +8,7 @@ import { addGitIgnore } from "./utils/propsRecord";
 
 export const activate = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
-    vscode.commands.registerCommand("react-preview.start", () => {
+    vscode.commands.registerCommand("preview.start", () => {
       const workspaceFolders = vscode.workspace.workspaceFolders;
 
       if (!workspaceFolders) return;

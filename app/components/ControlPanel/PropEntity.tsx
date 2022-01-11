@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import Button from "../Shared/Button";
+
 interface Props {
   propName: string;
   propType: string;
@@ -17,23 +19,27 @@ const PropEntity = ({ propName, propType, defaultValue }: Props) => {
 
   return (
     <Wrapper>
-      <Prop>
-        <th>{propName}</th>
-        <th>{defaultValue}</th>
-        <th>
-          <button onClick={onDeleteButtonClick}>X</button>
-        </th>
-      </Prop>
+      <Category>{propName}</Category>
+      <Category>{propType}</Category>
+      <Category>{defaultValue}</Category>
+      <Button type="button" onClick={onDeleteButtonClick} value="X" />
     </Wrapper>
   );
 };
 
-const Wrapper = styled.tbody`
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-top: 10px;
+  padding: 5px;
   border: 1px solid #808080;
+  border-radius: 3px;
 `;
 
-const Prop = styled.tr`
-  border: 1px solid #808080;
+const Category = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default PropEntity;
