@@ -27,7 +27,7 @@ const PreviewPanel = ({ port = 9132 }: Props) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
