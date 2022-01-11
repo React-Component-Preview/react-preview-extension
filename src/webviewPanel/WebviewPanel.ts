@@ -102,6 +102,7 @@ class WebviewPanel {
     WebviewPanel.currentPanel = undefined;
 
     this._panel.dispose();
+    PreviewProvider.preview?.stopServer();
 
     while (this._disposable.length) {
       const x = this._disposable.pop();
