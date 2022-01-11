@@ -18,7 +18,7 @@ const ControlPanel = ({ propList }: Props) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   height: 40%;
 `;
 

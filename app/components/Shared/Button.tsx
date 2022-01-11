@@ -5,11 +5,12 @@ interface Props {
   type: "button" | "submit" | "reset" | undefined;
   value: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  className?: string;
 }
 
-const Button = ({ type, value, onClick }: Props) => {
+const Button = ({ type, value, onClick, className }: Props) => {
   return (
-    <DefaultButton type={type} onClick={onClick}>
+    <DefaultButton type={type} onClick={onClick} className={className}>
       {value}
     </DefaultButton>
   );
