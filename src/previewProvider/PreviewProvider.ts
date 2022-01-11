@@ -58,20 +58,8 @@ class PreviewProvider {
 
   private startWebpackDevServer() {
     const webpackConfig = createWebpackConfig(this._extensionPath, this._workspacePath);
-    const devServerOptions = {
-      static: {
-        directory: path.join(this._extensionPath, "preview"),
-        watch: true,
-      },
-      port: 9132,
-      host: "localhost",
-      client: {
-        overlay: false,
-        logging: "none",
-      },
-    };
-
     const compiler = Webpack(webpackConfig);
+    const devServerOptions = { ...webpackConfig.devServer, open: false };
     this._server = new WebpackDevServer(devServerOptions, compiler);
 
     this._server.startCallback(() => {
