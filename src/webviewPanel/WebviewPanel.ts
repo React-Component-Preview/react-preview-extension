@@ -74,6 +74,12 @@ class WebviewPanel {
 
       this.currentComponentPath = editor.document.uri.path;
       const activeFileName = this.currentComponentPath.split("/").pop() as string;
+
+      if (!["js", "jsx", "ts", "tsx"].includes(activeFileName.split(".")[1])) {
+        this.dispose();
+        PreviewProvider.preview?.stopServer();
+      }
+
       this.currentComponentName = activeFileName.split(".")[0];
 
       this._update();
@@ -113,7 +119,7 @@ class WebviewPanel {
     this._panel.webview.html = this._getHtmlForWebview(webview);
 
     const props = await createAndShowPreviewConfig(this._workspacePath);
-    const currentProps = props[this.currentComponentName];
+    const currentProps = props ? props[this.currentComponentName] : [];
 
     this._panel.webview.postMessage({ propList: currentProps });
   }
@@ -129,9 +135,7 @@ class WebviewPanel {
     <html lang="en">
     <head>
       <meta charset="UTF-8">
-
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
       <link href="${stylesResetUri}" rel="stylesheet">
 
       <title>React Component Preview</title>

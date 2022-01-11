@@ -8,7 +8,7 @@ const gitIgnoreContent = "\n#React Component Preview\npreviewConfig.json";
 
 export const addGitIgnore = async (workspacePath: string) => {
   const gitIgnoreFiles = await vscode.workspace.findFiles(".gitignore");
-  const gitIgnorePath = gitIgnoreFiles[0] ? gitIgnoreFiles[0].path : undefined;
+  const gitIgnorePath = gitIgnoreFiles[0]?.path;
 
   if (!gitIgnorePath) {
     await fs.writeFile(path.join(workspacePath, ".gitignore"), gitIgnoreContent);
@@ -24,7 +24,7 @@ export const addGitIgnore = async (workspacePath: string) => {
 
 export const createAndShowPreviewConfig = async (workspacePath: string) => {
   const previewConfigFiles = await vscode.workspace.findFiles("previewConfig.json");
-  const previewConfigPath = previewConfigFiles[0].path as string;
+  const previewConfigPath = previewConfigFiles[0]?.path;
 
   if (!previewConfigPath) {
     await fs.writeFile(path.join(workspacePath, "previewConfig.json"), "");
@@ -32,8 +32,9 @@ export const createAndShowPreviewConfig = async (workspacePath: string) => {
   }
 
   const previewConfig = await fs.readFile(path.join(workspacePath, "previewConfig.json"));
+  const previewConfigData = previewConfig.toString() && JSON.parse(previewConfig.toString());
 
-  return JSON.parse(previewConfig.toString());
+  return previewConfigData;
 };
 
 export const addPropsInfo = async (
@@ -42,7 +43,7 @@ export const addPropsInfo = async (
   propInfo: Prop,
 ) => {
   const previewConfigFiles = await vscode.workspace.findFiles("previewConfig.json");
-  const previewConfigPath = previewConfigFiles[0] ? previewConfigFiles[0].path : undefined;
+  const previewConfigPath = previewConfigFiles[0]?.path;
 
   if (!previewConfigPath) {
     const newConfig: PreviewConfig = {};
@@ -54,7 +55,7 @@ export const addPropsInfo = async (
   }
 
   const previewConfig = await fs.readFile(previewConfigPath);
-  const originalPropsInfo = JSON.parse(previewConfig.toString());
+  const originalPropsInfo = previewConfig.toString() ? JSON.parse(previewConfig.toString()) : {};
 
   if (!originalPropsInfo[componentName]) {
     originalPropsInfo[componentName] = [propInfo];
@@ -74,13 +75,16 @@ export const deletePropsInfo = async (
   propName: string,
 ) => {
   const previewConfigFiles = await vscode.workspace.findFiles("previewConfig.json");
-  const previewConfigPath = previewConfigFiles[0] ? previewConfigFiles[0].path : undefined;
+  const previewConfigPath = previewConfigFiles[0]?.path;
 
   if (!previewConfigPath) {
     return;
   }
 
   const previewConfig = await fs.readFile(previewConfigPath);
+
+  if (!previewConfig.toString()) return;
+
   const originalPropsInfo = JSON.parse(previewConfig.toString());
 
   const newPropsList = originalPropsInfo[componentName].filter(
