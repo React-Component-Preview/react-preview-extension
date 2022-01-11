@@ -1,11 +1,9 @@
-import * as path from "path";
-import * as Webpack from "webpack";
+const path = require("path");
 
 const createWebpackConfig = (
-  devServerPort = 9132,
   extensionPath: string,
   workspacePath: string,
-): Webpack.Configuration => {
+) => {
   return {
     mode: "development",
     entry: path.join(extensionPath, "preview", "index.js"),
@@ -14,7 +12,11 @@ const createWebpackConfig = (
     },
     devtool: false,
     resolve: {
-      modules: [path.join(extensionPath, "node_modules"), path.join(workspacePath, "node_modules"), "node_modules"],
+      modules: [
+        path.join(extensionPath, "node_modules"),
+        path.join(workspacePath, "node_modules"),
+        "node_modules",
+      ],
       extensions: [".js", ".json", ".jsx"],
     },
     context: extensionPath,
@@ -42,19 +44,7 @@ const createWebpackConfig = (
       ],
     },
     stats: "errors-only",
-    devServer: {
-      static: {
-        directory: path.join(extensionPath, "preview"),
-        watch: true,
-      },
-      port: devServerPort,
-      host: "localhost",
-      client: {
-        overlay: false,
-        logging: "none",
-      },
-    },
   };
 };
 
-export default createWebpackConfig;
+module.exports = createWebpackConfig;
