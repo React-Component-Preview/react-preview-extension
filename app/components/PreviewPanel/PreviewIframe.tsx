@@ -14,7 +14,10 @@ interface PreviewIframeType {
 const PreviewIframe = ({ port, backgroundColor, children }: Props) => {
   return (
     <Wrapper>
-      <CustomIframe src={`http://localhost:${port}`} backgroundColor={backgroundColor} />
+      <CustomIframe
+        src={`http://localhost:${port}`}
+        backgroundColor={backgroundColor}
+      />
       {children}
     </Wrapper>
   );
