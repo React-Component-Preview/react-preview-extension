@@ -8,9 +8,11 @@ interface Props {
   propType: string;
   defaultValue: string;
   onChange: React.ChangeEventHandler<HTMLElement>;
+  required: boolean;
+  className: string;
 }
 
-const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
+const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, className }: Props) => {
   switch (propType) {
     case "number":
       return (
@@ -19,6 +21,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
           name="defaultValue"
           value={defaultValue}
           onChange={onChange}
+          required={required}
+          className={className}
         />
       );
     case "boolean":
@@ -28,6 +32,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
           name="defaultValue"
           onChange={onChange}
           radioList={["true", "false"]}
+          required={required}
+          className={className}
         />
       );
     case "array":
@@ -37,6 +43,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
           name="defaultValue"
           value={defaultValue}
           onChange={onChange}
+          required={required}
+          className={className}
         />
       );
     case "object":
@@ -46,6 +54,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
           name="defaultValue"
           value={defaultValue}
           onChange={onChange}
+          required={required}
+          className={className}
         />
       );
     case "function":
@@ -55,7 +65,15 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
           name="defaultValue"
           value={defaultValue}
           onChange={onChange}
-          optionList={["click", "submit", "key down", "key press", "key up"]}
+          optionList={[
+            { name: "onClick", value: "() => alert('clicked')" },
+            { name: "onSubmit", value: "() => alert('submitted')" },
+            { name: "onKeydown", value: "() => alert('key down')" },
+            { name: "onKeyPress", value: "() => alert('key press')" },
+            { name: "onKeyUp", value: "() => alert('key up')" },
+          ]}
+          required={required}
+          className={className}
         />
       );
     default:
@@ -65,6 +83,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange }: Props) => {
           name="defaultValue"
           value={defaultValue}
           onChange={onChange}
+          required={required}
+          className={className}
         />
       );
   }

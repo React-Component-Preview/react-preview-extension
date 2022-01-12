@@ -10,21 +10,23 @@ interface Props {
   required?: boolean;
   placeHolder?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 const TextInput = ({
   label,
   name,
   value,
+  onChange,
   readOnly,
   required,
   placeHolder,
   className,
-  onChange,
+  disabled,
 }: Props) => {
   return (
     <>
-      <label htmlFor={name}>{label}</label>
+      <Label htmlFor={name}>{label}</Label>
       <Input
         type="text"
         id={name}
@@ -34,10 +36,16 @@ const TextInput = ({
         required={required}
         placeholder={placeHolder}
         onChange={onChange}
+        disabled={disabled}
       />
     </>
   );
 };
+
+const Label = styled.label`
+  display: inline-block;
+  margin-bottom: 10px;
+`;
 
 const Input = styled.input`
   box-sizing: border-box;

@@ -28,6 +28,10 @@ function PropsControlHeader() {
       command: "add",
       payload: { propName, propType, defaultValue },
     });
+
+    setPropName("");
+    setPropType("");
+    setDefaultValue("");
   };
 
   const onPropNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,31 +48,50 @@ function PropsControlHeader() {
 
   return (
     <FormWrapper onSubmit={onSubmit}>
-      <div>
-        <TextInput label="Prop Name" name="propName" value={propName} onChange={onPropNameChange} />
-      </div>
+      <Box>
+        <TextInput
+          label="Prop Name"
+          name="propName"
+          value={propName}
+          onChange={onPropNameChange}
+          required={true}
+          className="content"
+          disabled={propType === "function" && true}
+        />
+      </Box>
 
-      <div>
+      <Box>
         <Select
           label="Prop Type"
           name="propType"
           value={propType}
           onChange={onPropTypeChange}
-          optionList={["string", "number", "boolean", "array", "object", "function"]}
+          optionList={[
+            { name: "string", value: "string" },
+            { name: "number", value: "number" },
+            { name: "boolean", value: "boolean" },
+            { name: "array", value: "array" },
+            { name: "object", value: "object" },
+            { name: "function", value: "function" },
+          ]}
+          required={true}
+          className="content"
         />
-      </div>
+      </Box>
 
-      <div>
+      <Box>
         <PropTypeDefaultValue
           propType={propType}
           defaultValue={defaultValue}
           onChange={onDefaultValueChange}
+          required={true}
+          className="content"
         />
-      </div>
+      </Box>
 
-      <div>
-        <Button type="submit" value="Add" />
-      </div>
+      <Box>
+        <Button type="submit" value="Add" className="content" />
+      </Box>
     </FormWrapper>
   );
 }
@@ -76,15 +99,22 @@ function PropsControlHeader() {
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: row;
-  min-height: 80px;
+  height: 25%;
   padding: 10px;
   border: 1px solid #808080;
   border-radius: 3px;
+`;
 
-  div {
-    height: 40px;
-    width: 25%;
-    margin: 0px 5px;
+const Box = styled.div`
+  position: relative;
+  height: 100%;
+  width: 25%;
+  margin: 0px 5px;
+
+  .content {
+    position: absolute;
+    bottom: 5px;
+    height: 30px;
   }
 `;
 
