@@ -1,12 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
+interface functionOptions{
+  name: string;
+  value: string;
+}
+
 interface Props {
   label: string;
   name: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
-  optionList: string[];
+  optionList: functionOptions[];
   required?: boolean;
   className?: string;
 }
@@ -14,7 +19,7 @@ interface Props {
 function Select({ label, name, value, onChange, required, className, optionList }: Props) {
   return (
     <>
-      <label htmlFor={name}>{label}</label>
+      <Label htmlFor={name}>{label}</Label>
       <DefaultSelect
         value={value}
         name={name}
@@ -23,14 +28,19 @@ function Select({ label, name, value, onChange, required, className, optionList 
         className={className}
       >
         {optionList.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.name} value={option.value}>
+            {option.name}
           </option>
         ))}
       </DefaultSelect>
     </>
   );
 }
+
+const Label = styled.label`
+  display: inline-block;
+  margin-bottom: 10px;
+`;
 
 const DefaultSelect = styled.select`
   box-sizing: border-box;

@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 interface Props {
   label: string;
@@ -14,7 +15,7 @@ const RadioInput = ({ label, name, onChange, radioList, required, className }: P
     <>
       <p>{label}</p>
       {radioList.map((radio) => (
-        <div>
+        <RadioWrapper>
           <label htmlFor={radio}>{radio}</label>
           <input
             type="radio"
@@ -26,10 +27,14 @@ const RadioInput = ({ label, name, onChange, radioList, required, className }: P
             onChange={onChange}
             className={className}
           />
-        </div>
+        </RadioWrapper>
       ))}
     </>
   );
 };
+
+const RadioWrapper = styled.div`
+  display: inline-block;
+`;
 
 export default RadioInput;
