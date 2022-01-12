@@ -131,6 +131,7 @@ class WebviewPanel {
     const currentComponentPropList = props[this.currentComponentName] || [];
 
     this._panel.webview.postMessage({
+      command: "updateComponent",
       currentComponentName: this.currentComponentName,
       propList: currentComponentPropList,
     });
