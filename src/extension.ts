@@ -1,10 +1,8 @@
 import * as vscode from "vscode";
 
-import WebviewPanel from "./webviewPanel/WebviewPanel";
-import PreviewProvider from "./previewProvider/PreviewProvider";
-import getWebviewOptions from "./webviewPanel/getWebviewOptions";
-
-import { addGitIgnore } from "./utils/propsRecord";
+import WebviewPanel from "./WebviewPanel";
+import getWebviewOptions from "./utils/getWebviewOptions";
+import { addGitIgnore } from "./utils/previewConfigController";
 
 export const activate = (context: vscode.ExtensionContext) => {
   context.subscriptions.push(
@@ -17,7 +15,6 @@ export const activate = (context: vscode.ExtensionContext) => {
 
       addGitIgnore(workspacePath);
 
-      PreviewProvider.startPreview(context.extensionUri.path, workspacePath);
       WebviewPanel.createAndShow(context.extensionUri, workspacePath);
     }),
   );
@@ -39,6 +36,7 @@ export const activate = (context: vscode.ExtensionContext) => {
 };
 
 export const deactivate = () => {
-  PreviewProvider.preview?.stopServer();
-  WebviewPanel.currentPanel?.dispose();
+  if (WebviewPanel.currentPanel) {
+    WebviewPanel.currentPanel.dispose();
+  }
 };

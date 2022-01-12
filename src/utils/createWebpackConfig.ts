@@ -1,10 +1,14 @@
-const path = require("path");
+import * as path from "path";
+import { Configuration } from "webpack";
 
-const createWebpackConfig = (extensionPath: string, workspacePath: string) => {
+const createWebpackConfig = (
+  extensionPath: string,
+  workspacePath: string,
+): Configuration => {
   return {
     mode: "development",
-    context: extensionPath,
-    entry: path.join(extensionPath, "preview", "index.js"),
+    context: path.resolve(extensionPath, "preview"),
+    entry: path.resolve(extensionPath, "preview", "index.js"),
     output: {
       filename: "bundle.js",
       path: path.resolve(extensionPath, "preview"),
@@ -12,10 +16,10 @@ const createWebpackConfig = (extensionPath: string, workspacePath: string) => {
     devtool: false,
     resolve: {
       modules: [
-        path.join(workspacePath, "node_modules"),
-        path.join(extensionPath, "node_modules"),
+        path.resolve(extensionPath, "node_modules"),
+        path.resolve(workspacePath, "node_modules"),
       ],
-      extensions: [".js", ".json", ".jsx"],
+      extensions: [".js", ".jsx"],
     },
     module: {
       rules: [
@@ -24,12 +28,12 @@ const createWebpackConfig = (extensionPath: string, workspacePath: string) => {
           use: ["html-loader"],
         },
         {
-          test: /\.m?(js|jsx)$/,
+          test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-env", "@babel/preset-react"],
+              presets: [["@babel/preset-env", { targets: "defaults" }], "@babel/preset-react"],
             },
           },
         },
@@ -39,20 +43,20 @@ const createWebpackConfig = (extensionPath: string, workspacePath: string) => {
         },
       ],
     },
-    stats: "errors-only",
+    // stats: "errors-only",
     devServer: {
       static: {
-        directory: path.join(extensionPath, "preview"),
+        directory: path.resolve(extensionPath, "preview"),
         watch: true,
       },
       port: 9132,
       host: "localhost",
       client: {
         overlay: false,
-        logging: "none",
+        logging: "info",
       },
     },
   };
 };
 
-module.exports = createWebpackConfig;
+export default createWebpackConfig;
