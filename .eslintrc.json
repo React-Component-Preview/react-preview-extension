@@ -11,10 +11,8 @@
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
     "@typescript-eslint/semi": "warn",
-    "curly": "warn",
     "no-throw-literal": "warn",
     "semi": "warn",
-    "no-console": "warn",
     "no-unused-vars": "warn",
     "no-await-in-loop": "warn",
     "eqeqeq": "warn",
