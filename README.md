@@ -1,70 +1,51 @@
-# react-component-preview README
+# React Component Preview
 
-This is the README for your extension "react-component-preview". After writing up a brief description, we recommend including the following sections.
+**VScode extension for React Developers!**
 
-## Features
+This extension enables developers to preview react component while writing their code. You can add custom props from the control panel and preview your component.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## How to start
+1. Open [Visual Studio Code](https://code.visualstudio.com/)
+2. Press ` Ctrl + P `/` ⌘ + P ` to quick start
+3. Start editing your react component from text editor
 
-For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
+OR
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. Open [Visual Studio Code](https://code.visualstudio.com/)
+2. Press ` Ctrl + Shift + P `/` ⌘ + Shift + P ` and type "React Component Preview: preview start"
+3. Start editing your react component from text editor
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+-  `previewConfig.json` file will be automatically added in your workspace. We strongly recommend you not to modify this file unless its necessary.
 
-## Extension Settings
+-  Current Extension features only supports `.js`, `.jsx` files
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+-  component should be exported with `export default <Component>`
 
-For example:
+```js
+const Button = () => {
+  return (
+    <button>
+      ClickMe
+    </button>
+  );
+};
 
-This extension contributes the following settings:
+// export default is a must
+export default Button;
+```
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+## Future Updates
 
-## Known Issues
+  - [ ] .tsx support
+  - [ ] error console
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Contributing
+Something missing? Found a bug? - Create a pull request or an issue. [Github](https://github.com/React-Component-Preview/react-preview-extension/issues)
 
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## License
+This software is released under MIT License
 
 **Enjoy!**
