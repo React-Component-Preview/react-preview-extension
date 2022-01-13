@@ -17,7 +17,6 @@ const Button = ({ type, value, onClick, className }: Props) => {
 };
 
 const DefaultButton = styled.button`
-  box-sizing: border-box;
   width: 100%;
 `;
 

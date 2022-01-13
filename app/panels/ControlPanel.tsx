@@ -19,7 +19,7 @@ const ControlPanel = ({ propList }: Props) => {
 };
 
 const Wrapper = styled.section`
-  height: 40%;
+  height: 350px;
 `;
 
 export default ControlPanel;
