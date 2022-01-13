@@ -2,7 +2,11 @@
 
 **VScode extension for React Developers!**
 
-This extension enables developers to preview react component while writing their code. You can add custom props from the control panel and preview your component.
+This extension enables developers to preview react component while writing their code.
+
+You can add custom props from the control panel and preview your component.
+
+![preview](https://user-images.githubusercontent.com/76524890/149337805-3195effe-7052-4822-89fa-6b39aad9c630.gif)
 
 ## How to start
 1. Open [Visual Studio Code](https://code.visualstudio.com/)
