@@ -21,7 +21,7 @@ const PropEntity = ({ propName, propType, defaultValue }: Props) => {
     <Wrapper>
       <Category>{propName}</Category>
       <Category>{propType}</Category>
-      <Category>{defaultValue}</Category>
+      <Category>{propType === "function" ? propName + " Event" : defaultValue}</Category>
       <Button type="button" onClick={onDeleteButtonClick} value="X" />
     </Wrapper>
   );
