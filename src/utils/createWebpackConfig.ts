@@ -1,10 +1,15 @@
 import * as path from "path";
-import { Configuration } from "webpack";
+import * as Webpack from "webpack";
 
 const createWebpackConfig = (
   extensionPath: string,
   workspacePath: string,
-): Configuration => {
+): Webpack.Configuration => {
+  const cssLoaderList = ["style-loader", "css-loader"].map((loader) => require.resolve(loader));
+  const babelPresetList = ["@babel/preset-env", "@babel/preset-react"].map((preset) =>
+    require.resolve(preset),
+  );
+
   return {
     mode: "development",
     context: path.resolve(extensionPath, "preview"),
@@ -13,6 +18,11 @@ const createWebpackConfig = (
       filename: "bundle.js",
       path: path.resolve(extensionPath, "preview"),
     },
+    plugins: [
+      new Webpack.ProvidePlugin({
+        React: "react",
+      }),
+    ],
     devtool: false,
     resolve: {
       modules: [
@@ -33,13 +43,13 @@ const createWebpackConfig = (
           use: {
             loader: "babel-loader",
             options: {
-              presets: [["@babel/preset-env", { targets: "defaults" }], "@babel/preset-react"],
+              presets: babelPresetList,
             },
           },
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"],
+          use: cssLoaderList,
         },
       ],
     },
