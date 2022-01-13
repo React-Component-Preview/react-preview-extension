@@ -3,9 +3,11 @@ import styled from "styled-components";
 
 import Preview from "./panels/PreviewPanel";
 import ControlPanel from "./panels/ControlPanel";
-import Header from "./components/Header";
+import Header from "./panels/Header";
+import Popup from "./components/Shared/Popup";
 
 const App = () => {
+  const [eventMessage, setEventMessage] = useState("");
   const [currentComponentName, setCurrentComponentName] = useState("");
   const [propList, setPropList] = useState([]);
 
@@ -17,6 +19,8 @@ const App = () => {
         case "updateComponent":
           setPropList(data.propList);
           setCurrentComponentName(data.currentComponentName);
+        case "previewEvent":
+          setEventMessage(data.eventMessage);
       }
     });
   }, []);
@@ -25,17 +29,26 @@ const App = () => {
     messageHandler();
   });
 
+  const handleEventPopupVisibility = (isVisible: boolean) => {
+    if (!isVisible) {
+      setEventMessage("");
+    }
+  };
+
   return (
     <Wrapper>
       <Header componentName={currentComponentName} />
       <Preview />
       <ControlPanel propList={propList} />
+      {eventMessage && (
+        <Popup message={eventMessage} duration={2000} setIsVisible={handleEventPopupVisibility} />
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  height: 100vh;
+  position: relative;
 `;
 
 export default App;
