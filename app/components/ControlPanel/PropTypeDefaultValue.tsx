@@ -66,11 +66,31 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, clas
           value={defaultValue}
           onChange={onChange}
           optionList={[
-            { name: "onClick", value: "() => alert('clicked')" },
-            { name: "onSubmit", value: "() => alert('submitted')" },
-            { name: "onKeydown", value: "() => alert('key down')" },
-            { name: "onKeyPress", value: "() => alert('key press')" },
-            { name: "onKeyUp", value: "() => alert('key up')" },
+            {
+              name: "onClick",
+              value:
+                "() => window.parent.postMessage({command: 'previewEvent', eventMessage: 'Clicked'}, '*')",
+            },
+            {
+              name: "onSubmit",
+              value:
+                "() => window.parent.postMessage({command: 'previewEvent', eventMessage: 'Submitted'}, '*')",
+            },
+            {
+              name: "onKeydown",
+              value:
+                "() => window.parent.postMessage({command: 'previewEvent', eventMessage: 'Key Down'}, '*')",
+            },
+            {
+              name: "onKeyPress",
+              value:
+                "() => window.parent.postMessage({command: 'previewEvent', eventMessage: 'Key Pressed'}, '*')",
+            },
+            {
+              name: "onKeyUp",
+              value:
+                "() => window.parent.postMessage({command: 'previewEvent', eventMessage: 'Key Up'}, '*')",
+            },
           ]}
           required={required}
           className={className}

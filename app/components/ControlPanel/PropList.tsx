@@ -31,19 +31,17 @@ function PropsList({ propList }: Props) {
 }
 
 const PropListWrapper = styled.div`
+  min-height: 280px;
   margin: 10px 0px;
-  width: 100%;
-  min-height: 65%;
+  padding: 10px;
   border: 1px solid #808080;
   border-radius: 3px;
   text-align: left;
-  padding: 10px;
 `;
 
 const PropListHeader = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  width: 100%;
 
   div {
     display: flex;

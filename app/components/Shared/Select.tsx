@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-interface functionOptions{
+interface functionOptions {
   name: string;
   value: string;
 }

@@ -56,7 +56,6 @@ function PropsControlHeader() {
           onChange={onPropNameChange}
           required={true}
           className="content"
-          disabled={propType === "function" && true}
         />
       </Box>
 
@@ -99,7 +98,7 @@ function PropsControlHeader() {
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: row;
-  height: 25%;
+  height: 80px;
   padding: 10px;
   border: 1px solid #808080;
   border-radius: 3px;

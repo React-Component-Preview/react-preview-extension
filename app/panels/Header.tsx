@@ -15,7 +15,6 @@ const Header = ({ componentName }: Props) => {
 
 const Wrapper = styled.header`
   min-height: 30px;
-  width: 100%;
   font-size: 15px;
 `;
 
