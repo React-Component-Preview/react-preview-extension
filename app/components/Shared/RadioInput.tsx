@@ -2,18 +2,27 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props {
-  label: string;
+  label?: string;
   name: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   radioList: string[];
   required?: boolean;
   className?: string;
 }
 
-const RadioInput = ({ label, name, onChange, radioList, required, className }: Props) => {
+const RadioInput = ({
+  label,
+  name,
+  onChange,
+  radioList,
+  required,
+  className,
+  value,
+}: Props) => {
   return (
     <>
-      <p>{label}</p>
+      {label && <p>{label}</p>}
       {radioList.map((radio) => (
         <RadioWrapper>
           <label htmlFor={radio}>{radio}</label>
@@ -26,6 +35,7 @@ const RadioInput = ({ label, name, onChange, radioList, required, className }: P
             value={radio}
             onChange={onChange}
             className={className}
+            checked={radio === value}
           />
         </RadioWrapper>
       ))}

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { debounce } from "lodash";
 import styled from "styled-components";
 
 import Button from "../Shared/Button";
+import TextInput from "../Shared/TextInput";
+import PropTypeDefaultValue from "../ControlPanel/PropTypeDefaultValue";
 
 interface Props {
   propName: string;
@@ -10,6 +13,44 @@ interface Props {
 }
 
 const PropEntity = ({ propName, propType, defaultValue }: Props) => {
+  const [newPropName, setNewPropName] = useState(propName);
+  const [newDefaultValue, setNewDefaultValue] = useState(defaultValue);
+
+  const debouncedPropUpdate = useCallback(
+    debounce(() => {
+      vscode.postMessage({
+        command: "update",
+        prevPropName: propName,
+        payload: {
+          propName: newPropName,
+          propType,
+          defaultValue: newDefaultValue,
+        },
+      });
+    }, 500),
+    [newDefaultValue],
+  );
+
+  useEffect(() => {
+    if (defaultValue !== newDefaultValue || propName !== newPropName) {
+      debouncedPropUpdate();
+    }
+
+    return debouncedPropUpdate.cancel;
+  }, [debouncedPropUpdate, newPropName, newDefaultValue]);
+
+  const onNewDefaultValueChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const newValue = event.currentTarget.value;
+
+    setNewDefaultValue(newValue);
+  };
+
+  const onNewPropNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPropName(event.currentTarget.value);
+  };
+
   const onDeleteButtonClick = () => {
     vscode.postMessage({
       command: "delete",
@@ -19,9 +60,23 @@ const PropEntity = ({ propName, propType, defaultValue }: Props) => {
 
   return (
     <Wrapper>
-      <Category>{propName}</Category>
+      <TextInput
+        name="propName"
+        value={newPropName}
+        onChange={onNewPropNameChange}
+        required={true}
+      />
+
       <Category>{propType}</Category>
-      <Category>{propType === "function" ? propName + " Event" : defaultValue}</Category>
+
+      <PropTypeDefaultValue
+        name="defaultValue"
+        propType={propType}
+        defaultValue={newDefaultValue}
+        onChange={onNewDefaultValueChange}
+        required={true}
+      />
+
       <Button type="button" onClick={onDeleteButtonClick} value="X" />
     </Wrapper>
   );

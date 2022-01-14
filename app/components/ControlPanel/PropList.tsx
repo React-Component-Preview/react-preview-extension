@@ -31,7 +31,7 @@ function PropsList({ propList }: Props) {
 }
 
 const PropListWrapper = styled.div`
-  min-height: 280px;
+  min-height: 285px;
   margin: 10px 0px;
   padding: 10px;
   border: 1px solid #808080;

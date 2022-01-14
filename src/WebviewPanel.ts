@@ -11,7 +11,10 @@ import {
   createAndShowPreviewConfig,
   addPropInfo,
   removePropInfo,
+  updatePropInfo,
 } from "./utils/previewConfigController";
+
+import { Prop } from "./types.d";
 
 class WebviewPanel {
   public static currentPanel: WebviewPanel | undefined;
@@ -24,6 +27,7 @@ class WebviewPanel {
   private _disposable: vscode.Disposable[] = [];
   private currentComponentName: string = "";
   private currentComponentPath: string = "";
+  private currentComponentPropList: Prop[] = [];
 
   public static createAndShow(extensionUri: vscode.Uri, workspacePath: string) {
     if (WebviewPanel.currentPanel) {
@@ -38,7 +42,11 @@ class WebviewPanel {
       getWebviewOptions(extensionUri),
     );
 
-    WebviewPanel.currentPanel = new WebviewPanel(panel, extensionUri, workspacePath);
+    WebviewPanel.currentPanel = new WebviewPanel(
+      panel,
+      extensionUri,
+      workspacePath,
+    );
   }
 
   public static revive(
@@ -46,60 +54,96 @@ class WebviewPanel {
     extensionUri: vscode.Uri,
     workspacePath: string,
   ) {
-    WebviewPanel.currentPanel = new WebviewPanel(panel, extensionUri, workspacePath);
+    WebviewPanel.currentPanel = new WebviewPanel(
+      panel,
+      extensionUri,
+      workspacePath,
+    );
   }
 
-  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, workspacePath: string) {
+  private constructor(
+    panel: vscode.WebviewPanel,
+    extensionUri: vscode.Uri,
+    workspacePath: string,
+  ) {
     this._panel = panel;
     this._extensionUri = extensionUri;
     this._workspacePath = workspacePath;
 
-    this._update();
+    this._updateWebview();
 
-    vscode.workspace.onDidSaveTextDocument(() => {
-      const editor = vscode.window.activeTextEditor;
+    vscode.workspace.onDidSaveTextDocument(
+      () => {
+        const editor = vscode.window.activeTextEditor;
 
-      if (!editor) {
-        return;
-      }
+        if (!editor) {
+          return;
+        }
 
-      if (
-        editor.document.languageId !== "javascript" &&
-        editor.document.languageId !== "javascriptreact"
-      ) {
-        return;
-      }
+        if (
+          editor.document.languageId !== "javascript" &&
+          editor.document.languageId !== "javascriptreact"
+        ) {
+          return;
+        }
 
-      this._update();
-    });
+        this._updatePreview();
+      },
+      null,
+      this._disposable,
+    );
 
-    vscode.window.onDidChangeActiveTextEditor(() => {
-      const editor = vscode.window.activeTextEditor;
+    vscode.window.onDidChangeActiveTextEditor(
+      () => {
+        const editor = vscode.window.activeTextEditor;
 
-      if (!editor) {
-        return;
-      }
+        if (!editor) {
+          return;
+        }
 
-      if (
-        editor.document.languageId !== "javascript" &&
-        editor.document.languageId !== "javascriptreact"
-      ) {
-        return;
-      }
+        if (
+          editor.document.languageId !== "javascript" &&
+          editor.document.languageId !== "javascriptreact"
+        ) {
+          return;
+        }
 
-      this._update();
-    });
+        this._updateWebview();
+      },
+      null,
+      this._disposable,
+    );
 
-    this._panel.webview.onDidReceiveMessage((message) => {
-      switch (message.command) {
-        case "add":
-          addPropInfo(this._workspacePath, this.currentComponentName, message.payload);
-        case "delete":
-          removePropInfo(this._workspacePath, this.currentComponentName, message.propName);
-      }
-
-      this._update();
-    });
+    this._panel.webview.onDidReceiveMessage(
+      (message) => {
+        switch (message.command) {
+          case "add":
+            addPropInfo(
+              this._workspacePath,
+              this.currentComponentName,
+              message.payload,
+            );
+            this._updateWebview();
+          case "delete":
+            removePropInfo(
+              this._workspacePath,
+              this.currentComponentName,
+              message.propName,
+            );
+            this._updateWebview();
+          case "update":
+            updatePropInfo(
+              this._workspacePath,
+              this.currentComponentName,
+              message.prevPropName,
+              message.payload,
+            );
+            this._updatePreview();
+        }
+      },
+      null,
+      this._disposable,
+    );
 
     this._panel.onDidDispose(() => this.dispose(), null, this._disposable);
   }
@@ -119,29 +163,34 @@ class WebviewPanel {
     }
   }
 
-  private _update() {
-    this._getCurrentComponentPathAndName();
-
+  private _updateWebview() {
     const webview = this._panel.webview;
 
-    this._panel.title = "React Component Preview";
-    this._panel.webview.html = this._getHtmlForWebview(webview);
+    this._updateCurrentComponentPathAndName();
+    this._updateCurrentPropList();
 
-    const props = createAndShowPreviewConfig(this._workspacePath);
-    const currentComponentPropList = props[this.currentComponentName] || [];
+    this._panel.title = "React Component Preview";
+    this._panel.iconPath = vscode.Uri.joinPath(this._extensionUri, "icon.png");
+    this._panel.webview.html = this._getHtmlForWebview(webview);
 
     this._panel.webview.postMessage({
       command: "updateComponent",
       currentComponentName: this.currentComponentName,
-      propList: currentComponentPropList,
+      propList: this.currentComponentPropList,
     });
+
+    this._updatePreview();
+  }
+
+  private _updatePreview() {
+    this._updateCurrentPropList();
 
     fs.writeFileSync(
       path.resolve(this._extensionUri.path, "preview", "index.js"),
       createJSTemplate(
         this.currentComponentPath,
         this.currentComponentName,
-        currentComponentPropList,
+        this.currentComponentPropList,
       ),
     );
 
@@ -150,8 +199,36 @@ class WebviewPanel {
     }
   }
 
+  private _updateCurrentComponentPathAndName() {
+    const editor = vscode.window.activeTextEditor;
+
+    if (!editor) {
+      return;
+    }
+
+    if (
+      editor.document.languageId !== "javascript" &&
+      editor.document.languageId !== "javascriptreact"
+    ) {
+      return;
+    }
+
+    this.currentComponentPath = editor.document.uri.path;
+    const activeFileName = this.currentComponentPath.split("/").pop() as string;
+    this.currentComponentName = activeFileName.split(".")[0];
+  }
+
+  private _updateCurrentPropList() {
+    const props = createAndShowPreviewConfig(this._workspacePath);
+    this.currentComponentPropList = props[this.currentComponentName] || [];
+  }
+
   private _startPreviewServer() {
-    const webpackConfig = createWebpackConfig(this._extensionUri.path, this._workspacePath);
+    const webpackConfig = createWebpackConfig(
+      this._extensionUri.path,
+      this._workspacePath,
+    );
+
     const compiler = Webpack(webpackConfig);
     const devServerOptions = { ...webpackConfig.devServer, open: false };
     this._previewServer = new WebpackDevServer(devServerOptions, compiler);
@@ -171,30 +248,20 @@ class WebviewPanel {
     }
   }
 
-  private _getCurrentComponentPathAndName() {
-    const editor = vscode.window.activeTextEditor;
-
-    if (!editor) {
-      return;
-    }
-
-    if (
-      editor.document.languageId !== "javascript" &&
-      editor.document.languageId !== "javascriptreact"
-    ) {
-      return;
-    }
-
-    this.currentComponentPath = editor.document.uri.path;
-    const activeFileName = this.currentComponentPath.split("/").pop() as string;
-    this.currentComponentName = activeFileName.split(".")[0];
-  }
-
   private _getHtmlForWebview(webview: vscode.Webview) {
-    const styleResetPath = vscode.Uri.joinPath(this._extensionUri, "app", "reset.css");
+    const styleResetPath = vscode.Uri.joinPath(
+      this._extensionUri,
+      "app",
+      "reset.css",
+    );
     const stylesResetUri = webview.asWebviewUri(styleResetPath);
 
-    const bundleScriptPath = vscode.Uri.joinPath(this._extensionUri, "out", "app", "bundle.js");
+    const bundleScriptPath = vscode.Uri.joinPath(
+      this._extensionUri,
+      "out",
+      "app",
+      "bundle.js",
+    );
     const bundleScriptUri = webview.asWebviewUri(bundleScriptPath);
 
     return `<!DOCTYPE html>

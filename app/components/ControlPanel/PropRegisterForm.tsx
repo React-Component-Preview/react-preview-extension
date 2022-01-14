@@ -39,6 +39,7 @@ function PropsControlHeader() {
   };
 
   const onPropTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setDefaultValue("");
     setPropType(event.currentTarget.value);
   };
 
@@ -80,6 +81,8 @@ function PropsControlHeader() {
 
       <Box>
         <PropTypeDefaultValue
+          label="Default Value"
+          name="defaultValue"
           propType={propType}
           defaultValue={defaultValue}
           onChange={onDefaultValueChange}

@@ -53,7 +53,7 @@ const createWebpackConfig = (
         },
       ],
     },
-    // stats: "errors-only",
+    stats: "errors-only",
     devServer: {
       static: {
         directory: path.resolve(extensionPath, "preview"),
@@ -63,7 +63,7 @@ const createWebpackConfig = (
       host: "localhost",
       client: {
         overlay: false,
-        logging: "info",
+        logging: "none",
       },
     },
   };
