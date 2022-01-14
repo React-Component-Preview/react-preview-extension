@@ -20,7 +20,6 @@ const ControlPanel = ({ propList }: Props) => {
 
 const Wrapper = styled.section`
   height: 350px;
-  min-width: 400px;
 `;
 
 export default ControlPanel;

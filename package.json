@@ -1,7 +1,7 @@
 {
   "name": "react-component-preview",
   "displayName": "React Component Preview",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "publisher": "SeoJunYoo",
   "description": "VScode extension for React component preview.",
   "icon": "icon.png",

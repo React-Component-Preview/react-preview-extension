@@ -49,6 +49,7 @@ const App = () => {
 
 const Wrapper = styled.div`
   position: relative;
+  min-width: 400px;
 `;
 
 export default App;
