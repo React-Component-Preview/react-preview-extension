@@ -58,3 +58,22 @@ export const removePropInfo = (workspacePath: string, componentName: string, pro
     JSON.stringify(previewConfigData, null, 2),
   );
 };
+
+export const updatePropInfo = (workspacePath: string, componentName: string, prevPropName: string, propInfo: Prop) => {
+  const previewConfigData = createAndShowPreviewConfig(workspacePath);
+
+  if (previewConfigData[componentName]) {
+    previewConfigData[componentName] = previewConfigData[componentName].map((prop: Prop) => {
+      if (prop.propName === prevPropName) {
+        return propInfo;
+      }
+
+      return prop;
+    });
+  }
+
+  fs.writeFileSync(
+    path.resolve(workspacePath, "previewConfig.json"),
+    JSON.stringify(previewConfigData, null, 2),
+  );
+}
