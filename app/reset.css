@@ -30,7 +30,7 @@ img {
 }
 
 :root {
-  --container-padding: 20px;
+  --container-padding: 10px;
   --input-padding-vertical: 6px;
   --input-padding-horizontal: 4px;
   --input-margin-vertical: 4px;
