@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     messageHandler();
-  });
+  }, []);
 
   const handleEventPopupVisibility = (isVisible: boolean) => {
     if (!isVisible) {

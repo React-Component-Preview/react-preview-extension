@@ -60,24 +60,30 @@ const PropEntity = ({ propName, propType, defaultValue }: Props) => {
 
   return (
     <Wrapper>
-      <TextInput
-        name="propName"
-        value={newPropName}
-        onChange={onNewPropNameChange}
-        required={true}
-      />
+      <Category>
+        <TextInput
+          name="propName"
+          value={newPropName}
+          onChange={onNewPropNameChange}
+          required={true}
+        />
+      </Category>
 
       <Category>{propType}</Category>
 
-      <PropTypeDefaultValue
-        name="defaultValue"
-        propType={propType}
-        defaultValue={newDefaultValue}
-        onChange={onNewDefaultValueChange}
-        required={true}
-      />
+      <Category>
+        <PropTypeDefaultValue
+          name="defaultValue"
+          propType={propType}
+          defaultValue={newDefaultValue}
+          onChange={onNewDefaultValueChange}
+          required={true}
+        />
+      </Category>
 
-      <Button type="button" onClick={onDeleteButtonClick} value="X" />
+      <Category>
+        <Button type="button" onClick={onDeleteButtonClick} value="X" />
+      </Category>
     </Wrapper>
   );
 };
@@ -95,6 +101,7 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0px 5px;
 `;
 
 export default PropEntity;
