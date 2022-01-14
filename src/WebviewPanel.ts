@@ -166,12 +166,12 @@ class WebviewPanel {
   private _updateWebview() {
     const webview = this._panel.webview;
 
-    this._updateCurrentComponentPathAndName();
-    this._updateCurrentPropList();
-
     this._panel.title = "React Component Preview";
     this._panel.iconPath = vscode.Uri.joinPath(this._extensionUri, "icon.png");
     this._panel.webview.html = this._getHtmlForWebview(webview);
+
+    this._updateCurrentComponentPathAndName();
+    this._updateCurrentPropList();
 
     this._panel.webview.postMessage({
       command: "updateComponent",
