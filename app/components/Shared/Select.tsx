@@ -7,19 +7,27 @@ interface functionOptions {
 }
 
 interface Props {
-  label: string;
+  label?: string;
   name: string;
   value: string;
-  onChange: React.ChangeEventHandler<HTMLSelectElement>;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
   optionList: functionOptions[];
   required?: boolean;
   className?: string;
 }
 
-function Select({ label, name, value, onChange, required, className, optionList }: Props) {
+function Select({
+  label,
+  name,
+  value,
+  onChange,
+  required,
+  className,
+  optionList,
+}: Props) {
   return (
     <>
-      <Label htmlFor={name}>{label}</Label>
+      {label && <Label htmlFor={name}>{label}</Label>}
       <DefaultSelect
         value={value}
         name={name}

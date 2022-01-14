@@ -5,20 +5,30 @@ import Select from "../Shared/Select";
 import RadioInput from "../Shared/RadioInput";
 
 interface Props {
+  label?: string;
+  name: string;
+  onChange?: React.ChangeEventHandler<HTMLElement>;
   propType: string;
   defaultValue: string;
-  onChange: React.ChangeEventHandler<HTMLElement>;
   required: boolean;
-  className: string;
+  className?: string;
 }
 
-const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, className }: Props) => {
+const PropTypeDefaultValue = ({
+  name,
+  label,
+  propType,
+  defaultValue,
+  onChange,
+  required,
+  className,
+}: Props) => {
   switch (propType) {
     case "number":
       return (
         <TextInput
-          label="Default Value"
-          name="defaultValue"
+          label={label}
+          name={name}
           value={defaultValue}
           onChange={onChange}
           required={required}
@@ -28,8 +38,9 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, clas
     case "boolean":
       return (
         <RadioInput
-          label="Boolean"
-          name="defaultValue"
+          label={label}
+          name={name}
+          value={defaultValue}
           onChange={onChange}
           radioList={["true", "false"]}
           required={required}
@@ -39,8 +50,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, clas
     case "array":
       return (
         <TextInput
-          label="Default Value"
-          name="defaultValue"
+          label={label}
+          name={name}
           value={defaultValue}
           onChange={onChange}
           required={required}
@@ -50,8 +61,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, clas
     case "object":
       return (
         <TextInput
-          label="Default Value"
-          name="defaultValue"
+          label={label}
+          name={name}
           value={defaultValue}
           onChange={onChange}
           required={required}
@@ -61,8 +72,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, clas
     case "function":
       return (
         <Select
-          label="Default Value"
-          name="defaultValue"
+          label={label}
+          name={name}
           value={defaultValue}
           onChange={onChange}
           optionList={[
@@ -99,8 +110,8 @@ const PropTypeDefaultValue = ({ propType, defaultValue, onChange, required, clas
     default:
       return (
         <TextInput
-          label="Default Value"
-          name="defaultValue"
+          label={label}
+          name={name}
           value={defaultValue}
           onChange={onChange}
           required={required}

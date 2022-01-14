@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props {
-  label: string;
+  label?: string;
   name: string;
   value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   readOnly?: boolean;
   required?: boolean;
   placeHolder?: string;
@@ -26,7 +26,7 @@ const TextInput = ({
 }: Props) => {
   return (
     <>
-      <Label htmlFor={name}>{label}</Label>
+      {label && <Label htmlFor={name}>{label}</Label>}
       <Input
         type="text"
         id={name}

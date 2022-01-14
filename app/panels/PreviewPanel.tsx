@@ -32,7 +32,7 @@ const Wrapper = styled.section`
   justify-content: center;
   align-items: center;
   height: 400px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 
 export default PreviewPanel;
