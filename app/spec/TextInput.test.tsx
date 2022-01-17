@@ -21,9 +21,9 @@ describe("Button test", () => {
 
   it("Render test", () => {
     const { getByTestId } = renderButton();
-    const defaultButton = getByTestId(TEXT_INPUT_TEST_ID);
+    const textInput = getByTestId(TEXT_INPUT_TEST_ID);
 
-    expect(defaultButton).toBeInTheDocument();
+    expect(textInput).toBeInTheDocument();
   });
 
   it("Attributes test", () => {
@@ -32,21 +32,21 @@ describe("Button test", () => {
       required: true,
       placeHolder: "input",
     });
-    const defaultButton = getByTestId(TEXT_INPUT_TEST_ID);
+    const textInput = getByTestId(TEXT_INPUT_TEST_ID);
 
-    expect(defaultButton).toHaveAttribute("type", "text");
-    expect(defaultButton).toHaveAttribute("disabled");
-    expect(defaultButton).toHaveAttribute("required");
-    expect(defaultButton).toHaveAttribute("placeHolder", "input");
+    expect(textInput).toHaveAttribute("type", "text");
+    expect(textInput).toHaveAttribute("disabled");
+    expect(textInput).toHaveAttribute("required");
+    expect(textInput).toHaveAttribute("placeHolder", "input");
   });
 
   it("onChange event test", () => {
     const { getByTestId } = renderButton();
-    const defaultButton = getByTestId(TEXT_INPUT_TEST_ID) as HTMLInputElement;
+    const textInput = getByTestId(TEXT_INPUT_TEST_ID) as HTMLInputElement;
 
-    fireEvent.change(defaultButton, { target: { value: "test" } });
-    expect(defaultButton.value).toBe("test");
-    fireEvent.change(defaultButton, { target: { value: "" } });
-    expect(defaultButton.value).toBe("");
+    fireEvent.change(textInput, { target: { value: "test" } });
+    expect(textInput.value).toBe("test");
+    fireEvent.change(textInput, { target: { value: "" } });
+    expect(textInput.value).toBe("");
   });
 });

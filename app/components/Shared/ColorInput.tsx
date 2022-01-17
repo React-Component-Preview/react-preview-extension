@@ -1,17 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 
-interface Props {
-  name: string;
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+export interface Props {
+  name?: string;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   required?: boolean;
 }
+
+export const COLOR_INPUT_TEST_ID = "color-input";
 
 const ColorInput = ({ name, value, onChange, required }: Props) => {
   return (
     <>
-      <Input type="color" name={name} value={value} onChange={onChange} required={required} />
+      <Input
+        type="color"
+        name={name}
+        value={value}
+        onChange={onChange}
+        required={required}
+        data-testid={COLOR_INPUT_TEST_ID}
+      />
     </>
   );
 };
