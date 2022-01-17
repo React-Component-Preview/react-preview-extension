@@ -6,7 +6,6 @@ export interface Props {
   value?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
-  testId?: string;
 }
 
 export const BUTTON_TEST_ID = "default-button";
@@ -16,7 +15,6 @@ const Button = ({
   value,
   onClick,
   className,
-  testId = BUTTON_TEST_ID,
 }: Props) => {
   return (
     <DefaultButton
@@ -24,7 +22,7 @@ const Button = ({
       value={value}
       onClick={onClick}
       className={className}
-      data-testid={testId}
+      data-testid={BUTTON_TEST_ID}
     >
       {value}
     </DefaultButton>
