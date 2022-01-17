@@ -7,7 +7,7 @@ import ColorInput, {
   COLOR_INPUT_TEST_ID,
 } from "../components/Shared/ColorInput";
 
-describe("Button test", () => {
+describe("ColorInput test", () => {
   let props: Props;
 
   beforeEach(() => {
@@ -16,30 +16,28 @@ describe("Button test", () => {
     };
   });
 
-  const renderButton = (optionProps?: Props) =>
+  const renderColorInput = (optionProps?: Props) =>
     render(<ColorInput {...props} {...optionProps} />);
 
   it("Render test", () => {
-    const { getByTestId } = renderButton();
+    const { getByTestId } = renderColorInput();
     const colorInput = getByTestId(COLOR_INPUT_TEST_ID);
 
     expect(colorInput).toBeInTheDocument();
   });
 
   it("Attributes test", () => {
-    const { getByTestId } = renderButton({
+    const { getByTestId } = renderColorInput({
       required: true,
-      value: "#000000",
     });
     const colorInput = getByTestId(COLOR_INPUT_TEST_ID);
 
     expect(colorInput).toHaveAttribute("type", "color");
     expect(colorInput).toHaveAttribute("required");
-    expect(colorInput).toHaveAttribute("value", "#000000");
   });
 
   it("onChange event test", () => {
-    const { getByTestId } = renderButton();
+    const { getByTestId } = renderColorInput();
     const colorInput = getByTestId(COLOR_INPUT_TEST_ID) as HTMLInputElement;
 
     fireEvent.change(colorInput, { target: { value: "#ffffff" } });

@@ -7,7 +7,7 @@ import TextInput, {
   TEXT_INPUT_TEST_ID,
 } from "../components/Shared/TextInput";
 
-describe("Button test", () => {
+describe("TextInput test", () => {
   let props: Props;
 
   beforeEach(() => {
@@ -16,18 +16,18 @@ describe("Button test", () => {
     };
   });
 
-  const renderButton = (optionProps?: Props) =>
+  const renderColorInput = (optionProps?: Props) =>
     render(<TextInput {...props} {...optionProps} />);
 
   it("Render test", () => {
-    const { getByTestId } = renderButton();
+    const { getByTestId } = renderColorInput();
     const textInput = getByTestId(TEXT_INPUT_TEST_ID);
 
     expect(textInput).toBeInTheDocument();
   });
 
   it("Attributes test", () => {
-    const { getByTestId } = renderButton({
+    const { getByTestId } = renderColorInput({
       disabled: true,
       required: true,
       placeHolder: "input",
@@ -41,7 +41,7 @@ describe("Button test", () => {
   });
 
   it("onChange event test", () => {
-    const { getByTestId } = renderButton();
+    const { getByTestId } = renderColorInput();
     const textInput = getByTestId(TEXT_INPUT_TEST_ID) as HTMLInputElement;
 
     fireEvent.change(textInput, { target: { value: "test" } });

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-interface Props {
+export interface Props {
   label?: string;
-  name: string;
+  name?: string;
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   radioList: string[];
@@ -11,24 +11,25 @@ interface Props {
   className?: string;
 }
 
+export const RADIO_INPUT_TEST_ID = "radio-input";
+
 const RadioInput = ({
   label,
   name,
+  value,
   onChange,
   radioList,
   required,
   className,
-  value,
 }: Props) => {
   return (
     <>
       {label && <p>{label}</p>}
       {radioList.map((radio) => (
-        <RadioWrapper>
+        <RadioWrapper key={radio}>
           <label htmlFor={radio}>{radio}</label>
           <input
             type="radio"
-            key={radio}
             name={name}
             id={radio}
             required={required}
@@ -36,6 +37,7 @@ const RadioInput = ({
             onChange={onChange}
             className={className}
             checked={radio === value}
+            data-testid={RADIO_INPUT_TEST_ID}
           />
         </RadioWrapper>
       ))}
