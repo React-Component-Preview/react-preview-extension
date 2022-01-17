@@ -1,16 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 
-interface Props {
-  type: "button" | "submit" | "reset" | undefined;
-  value: string;
+export interface Props {
+  type?: "button" | "submit" | "reset" | undefined;
+  value?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
+  testId?: string;
 }
 
-const Button = ({ type, value, onClick, className }: Props) => {
+export const BUTTON_TEST_ID = "default-button";
+
+const Button = ({
+  type,
+  value,
+  onClick,
+  className,
+  testId = BUTTON_TEST_ID,
+}: Props) => {
   return (
-    <DefaultButton type={type} onClick={onClick} className={className}>
+    <DefaultButton
+      type={type}
+      value={value}
+      onClick={onClick}
+      className={className}
+      data-testid={testId}
+    >
       {value}
     </DefaultButton>
   );
