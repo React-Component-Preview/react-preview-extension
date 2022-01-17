@@ -9,5 +9,6 @@
     "experimentalDecorators": true,
     "lib": ["dom", "ES2020"],
     "strict": true
-  }
+  },
+  "exclude": ["spec"]
 }

@@ -1,7 +1,7 @@
 {
   "name": "react-component-preview",
   "displayName": "React Component Preview",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "publisher": "SeoJunYoo",
   "description": "VScode extension for React component preview.",
   "icon": "icon.png",
@@ -19,10 +19,10 @@
   ],
   "keywords": [
     "react component preview",
+    "react preview",
     "react",
     "preview",
-    "component",
-    "react preview"
+    "component"
   ],
   "activationEvents": [
     "onCommand:preview.start",
@@ -56,10 +56,15 @@
     "watch:view": "webpack --watch --mode production",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/src/test/runTest.js"
+    "test": "node ./out/src/test/runTest.js",
+    "test:view": "jest /app/spec"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
     "@types/glob": "^7.1.4",
+    "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.178",
     "@types/mocha": "^9.0.0",
     "@types/node": "14.x",
@@ -74,9 +79,12 @@
     "eslint": "^8.1.0",
     "eslint-plugin-react": "^7.28.0",
     "glob": "^7.1.7",
+    "jest": "^27.4.7",
+    "jest-environment-jsdom": "^27.4.6",
     "mocha": "^9.1.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
     "webpack-cli": "^4.9.1"
