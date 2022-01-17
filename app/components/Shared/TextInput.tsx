@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-interface Props {
+export interface Props {
   label?: string;
-  name: string;
-  value: string;
+  name?: string;
+  value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   readOnly?: boolean;
   required?: boolean;
@@ -12,6 +12,8 @@ interface Props {
   className?: string;
   disabled?: boolean;
 }
+
+export const TEXT_INPUT_TEST_ID = "text-input";
 
 const TextInput = ({
   label,
@@ -37,6 +39,7 @@ const TextInput = ({
         placeholder={placeHolder}
         onChange={onChange}
         disabled={disabled}
+        data-testid={TEXT_INPUT_TEST_ID}
       />
     </>
   );
