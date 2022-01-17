@@ -57,7 +57,7 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/src/test/runTest.js",
-    "test:view": "jest /app/spec"
+    "test:view": "jest"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",
