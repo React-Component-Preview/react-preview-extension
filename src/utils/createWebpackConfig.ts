@@ -5,13 +5,15 @@ const createWebpackConfig = (
   extensionPath: string,
   workspacePath: string,
 ): Webpack.Configuration => {
-  const cssLoaderList = ["style-loader", "css-loader"].map((loader) => require.resolve(loader));
-  const babelPresetList = ["@babel/preset-env", "@babel/preset-react"].map((preset) =>
-    require.resolve(preset),
+  const babelLoader = require.resolve("babel-loader");
+  const babelPresetList = ["@babel/preset-env", "@babel/preset-react"].map(
+    (preset) => require.resolve(preset),
+  );
+  const cssLoaderList = ["style-loader", "css-loader"].map((loader) =>
+    require.resolve(loader),
   );
 
   return {
-    mode: "development",
     context: path.resolve(extensionPath, "preview"),
     entry: path.resolve(extensionPath, "preview", "index.js"),
     output: {
@@ -23,7 +25,6 @@ const createWebpackConfig = (
         React: "react",
       }),
     ],
-    devtool: false,
     resolve: {
       modules: [
         path.resolve(extensionPath, "node_modules"),
@@ -35,13 +36,13 @@ const createWebpackConfig = (
       rules: [
         {
           test: /\.(html)$/,
-          use: ["html-loader"],
+          use: ["htmlLoader"],
         },
         {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader",
+            loader: babelLoader,
             options: {
               presets: babelPresetList,
             },
@@ -50,6 +51,22 @@ const createWebpackConfig = (
         {
           test: /\.css$/,
           use: cssLoaderList,
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          use: [
+            {
+              loader: require.resolve("file-loader"),
+            },
+          ],
+        },
+        {
+          test: /\.(ttf|eot|woff|woff2)$/,
+          use: [
+            {
+              loader: require.resolve("file-loader"),
+            },
+          ],
         },
       ],
     },

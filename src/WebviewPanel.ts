@@ -25,9 +25,9 @@ class WebviewPanel {
   private readonly _extensionUri: vscode.Uri;
   private _previewServer: WebpackDevServer | undefined;
   private _disposable: vscode.Disposable[] = [];
-  private currentComponentName: string = "";
-  private currentComponentPath: string = "";
-  private currentComponentPropList: Prop[] = [];
+  private _currentComponentName: string = "";
+  private _currentComponentPath: string = "";
+  private _currentComponentPropList: Prop[] = [];
 
   public static createAndShow(extensionUri: vscode.Uri, workspacePath: string) {
     if (WebviewPanel.currentPanel) {
@@ -120,21 +120,21 @@ class WebviewPanel {
           case "add":
             addPropInfo(
               this._workspacePath,
-              this.currentComponentName,
+              this._currentComponentName,
               message.payload,
             );
             this._updateWebview();
           case "delete":
             removePropInfo(
               this._workspacePath,
-              this.currentComponentName,
+              this._currentComponentName,
               message.propName,
             );
             this._updateWebview();
           case "update":
             updatePropInfo(
               this._workspacePath,
-              this.currentComponentName,
+              this._currentComponentName,
               message.prevPropName,
               message.payload,
             );
@@ -175,8 +175,8 @@ class WebviewPanel {
 
     this._panel.webview.postMessage({
       command: "updateComponent",
-      currentComponentName: this.currentComponentName,
-      propList: this.currentComponentPropList,
+      currentComponentName: this._currentComponentName,
+      propList: this._currentComponentPropList,
     });
 
     this._updatePreview();
@@ -188,9 +188,9 @@ class WebviewPanel {
     fs.writeFileSync(
       path.resolve(this._extensionUri.path, "preview", "index.js"),
       createJSTemplate(
-        this.currentComponentPath,
-        this.currentComponentName,
-        this.currentComponentPropList,
+        this._currentComponentPath,
+        this._currentComponentName,
+        this._currentComponentPropList,
       ),
     );
 
@@ -213,14 +213,14 @@ class WebviewPanel {
       return;
     }
 
-    this.currentComponentPath = editor.document.uri.path;
-    const activeFileName = this.currentComponentPath.split("/").pop() as string;
-    this.currentComponentName = activeFileName.split(".")[0];
+    this._currentComponentPath = editor.document.uri.path;
+    const activeFileName = this._currentComponentPath.split("/").pop() as string;
+    this._currentComponentName = activeFileName.split(".")[0];
   }
 
   private _updateCurrentPropList() {
     const props = createAndShowPreviewConfig(this._workspacePath);
-    this.currentComponentPropList = props[this.currentComponentName] || [];
+    this._currentComponentPropList = props[this._currentComponentName] || [];
   }
 
   private _startPreviewServer() {
