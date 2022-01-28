@@ -1,7 +1,7 @@
 {
   "name": "react-component-preview",
   "displayName": "React Component Preview",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "SeoJunYoo",
   "description": "VScode extension for React component preview.",
   "icon": "icon.png",
@@ -94,6 +94,7 @@
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
+    "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
