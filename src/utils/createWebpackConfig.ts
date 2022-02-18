@@ -14,6 +14,7 @@ const createWebpackConfig = (
   );
 
   return {
+    mode: "development",
     context: path.resolve(extensionPath, "preview"),
     entry: path.resolve(extensionPath, "preview", "index.js"),
     output: {
@@ -25,6 +26,7 @@ const createWebpackConfig = (
         React: "react",
       }),
     ],
+    devtool: false,
     resolve: {
       modules: [
         path.resolve(extensionPath, "node_modules"),
@@ -70,6 +72,7 @@ const createWebpackConfig = (
         },
       ],
     },
+    cache: true,
     stats: "errors-only",
     devServer: {
       static: {
@@ -82,6 +85,7 @@ const createWebpackConfig = (
         overlay: false,
         logging: "none",
       },
+      hot: true,
     },
   };
 };
