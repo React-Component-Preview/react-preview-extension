@@ -7,10 +7,16 @@ export const addGitIgnore = (workspacePath: string) => {
   const gitIgnoreContent = "\n# React Component Preview\npreviewConfig.json";
 
   if (fs.existsSync(path.join(workspacePath, ".gitignore"))) {
-    const gitIgnore = fs.readFileSync(path.join(workspacePath, ".gitignore"), "utf8");
+    const gitIgnore = fs.readFileSync(
+      path.join(workspacePath, ".gitignore"),
+      "utf8",
+    );
 
     if (gitIgnore.indexOf(gitIgnoreContent) === -1) {
-      fs.appendFileSync(path.join(workspacePath, ".gitignore"), gitIgnoreContent);
+      fs.appendFileSync(
+        path.join(workspacePath, ".gitignore"),
+        gitIgnoreContent,
+      );
     }
   }
 };
@@ -32,7 +38,11 @@ export const createAndShowPreviewConfig = (workspacePath: string) => {
   return previewConfigData;
 };
 
-export const addPropInfo = (workspacePath: string, componentName: string, propInfo: Prop) => {
+export const addPropInfo = (
+  workspacePath: string,
+  componentName: string,
+  propInfo: Prop,
+) => {
   const previewConfigData = createAndShowPreviewConfig(workspacePath);
 
   previewConfigData[componentName] = previewConfigData[componentName] || [];
@@ -44,7 +54,11 @@ export const addPropInfo = (workspacePath: string, componentName: string, propIn
   );
 };
 
-export const removePropInfo = (workspacePath: string, componentName: string, propName: string) => {
+export const removePropInfo = (
+  workspacePath: string,
+  componentName: string,
+  propName: string,
+) => {
   const previewConfigData = createAndShowPreviewConfig(workspacePath);
 
   if (previewConfigData[componentName]) {
@@ -59,21 +73,28 @@ export const removePropInfo = (workspacePath: string, componentName: string, pro
   );
 };
 
-export const updatePropInfo = (workspacePath: string, componentName: string, prevPropName: string, propInfo: Prop) => {
+export const updatePropInfo = (
+  workspacePath: string,
+  componentName: string,
+  prevPropName: string,
+  propInfo: Prop,
+) => {
   const previewConfigData = createAndShowPreviewConfig(workspacePath);
 
   if (previewConfigData[componentName]) {
-    previewConfigData[componentName] = previewConfigData[componentName].map((prop: Prop) => {
-      if (prop.propName === prevPropName) {
-        return propInfo;
-      }
+    previewConfigData[componentName] = previewConfigData[componentName].map(
+      (prop: Prop) => {
+        if (prop.propName === prevPropName) {
+          return propInfo;
+        }
 
-      return prop;
-    });
+        return prop;
+      },
+    );
   }
 
   fs.writeFileSync(
     path.resolve(workspacePath, "previewConfig.json"),
     JSON.stringify(previewConfigData, null, 2),
   );
-}
+};
