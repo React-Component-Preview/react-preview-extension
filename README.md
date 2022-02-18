@@ -15,20 +15,22 @@ You can add custom props from the control panel and preview your updated compone
 
 ## How to start
 1. Open [Visual Studio Code](https://code.visualstudio.com/)
-2. From your working editor Press ` Ctrl + P `/` ⌘ + P ` to quick start
+2. From your working editor press ` ctrl + p `/` ⌘ + p ` to quick start
 3. Start editing your react component from the text editor and add props from the control panel
+4. When ever you finished editing and wants to check your preview press `ctrl + s` / `⌘ + s`
 
 ***OR***
 
 1. Open [Visual Studio Code](https://code.visualstudio.com/)
-2. From your working editor Press ` Ctrl + Shift + P `/` ⌘ + Shift + P ` to open command Palette and type ***"React Component Preview: preview start"***
+2. From your working editor press ` ctrl + p `/` ⌘ + p ` to open command Palette and type ***"React Component Preview: preview start"***
 3. Start editing your react component from the text editor and add props from the control panel
+4. 5. When ever you finished editing and wants to check your preview press `ctrl + s` / `⌘ + s`
 
 ## Requirements
 
 -  `previewConfig.json` file will be automatically added to your workspace. We strongly recommend you not to modify this file unless it is necessary.
 
--  Current Extension features only supports `.js`, `.jsx` files
+-  Current Extension features only supports `.js`, `.jsx` files (does not support `.tsx` at the moment)
 
 -  Current Extension only works on Mac OS
 
